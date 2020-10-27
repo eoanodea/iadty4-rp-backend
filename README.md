@@ -14,7 +14,8 @@ A music theory & piano teaching application designed and developed for my bachel
 
 1. Make sure MongoDB is running on your system or create an account at https://www.mongodb.com/atlas-signup-from-mlab
 2. Clone this repository.
-3. Open command line in the cloned folder,
+3. Run `cp example.env .env` and fill in your Mongo URI to the newely created .env file.
+4. Open command line in the cloned folder,
    - To install dependencies, run `npm install`
    - To run the application in development, run `npm run start`
-4. Open [localhost:8080/graphql](http://localhost:8080/graphql) in the browser
+5. Open [localhost:8080/graphql](http://localhost:8080/graphql) in the browser
