@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (art@psioniq.uk)
  * -----
  * File Description: Model which represents the User schema
- * Last Modified: Tuesday, 8th December 2020 8:21:12 pm
+ * Last Modified: Tuesday, 8th December 2020 8:24:23 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -19,20 +19,20 @@ import crypto from "crypto";
  * Type declaration for User Schema Fields
  */
 export interface IUserDocument extends Document {
-  _id: string;
-  name: string;
+  _id: String;
+  name: String;
   created: Date;
   updated: Date;
-  email: string;
-  hashed_password: string;
-  salt: string;
-  resetPasswordToken: string;
+  email: String;
+  hashed_password: String;
+  salt: String;
+  resetPasswordToken: String;
   resetPasswordExpires: Date;
-  confirmEmailToken: string;
-  confirmEmailTokenExpires: string;
-  oAuthToken: string;
-  accessToken: string;
-  refreshToken: string;
+  confirmEmailToken: String;
+  confirmEmailTokenExpires: String;
+  oAuthToken: String;
+  accessToken: String;
+  refreshToken: String;
 }
 
 /**
@@ -139,6 +139,6 @@ UserSchema.methods = {
   },
 };
 
-const User = mongoose.model<any>("User", UserSchema);
+const User = mongoose.model<IUser>("User", UserSchema);
 
 export default User;
