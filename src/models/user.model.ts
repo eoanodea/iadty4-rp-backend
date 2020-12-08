@@ -6,13 +6,13 @@
  * Author: Eoan O'Dea (art@psioniq.uk)
  * -----
  * File Description: Model which represents the User schema
- * Last Modified: Tuesday, 8th December 2020 8:25:25 pm
+ * Last Modified: Tuesday, 8th December 2020 8:30:23 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 import crypto from "crypto";
 
 /**
