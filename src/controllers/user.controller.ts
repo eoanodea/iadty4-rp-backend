@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description: Controller for the User Model
- * Last Modified: Sunday, 29th November 2020 11:26:22 pm
+ * Last Modified: Tuesday, 8th December 2020 6:29:35 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -40,7 +40,7 @@ export const create = async (req: Request, res: Response) => {
 
     const response = await user.save();
 
-    return res.status(200).json(handleSuccess(response));
+    return res.status(200).json(handleSuccess({ user: response }));
   } catch (err) {
     return res.status(400).json(handleError(err));
   }
