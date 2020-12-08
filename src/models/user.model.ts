@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (art@psioniq.uk)
  * -----
  * File Description: Model which represents the User schema
- * Last Modified: Tuesday, 8th December 2020 8:46:46 pm
+ * Last Modified: Tuesday, 8th December 2020 11:17:29 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -58,7 +58,7 @@ const UserSchema: Schema = new Schema({
     type: String,
     trim: "true",
     unique: "Email already exists",
-    match: ["/.+@.+..+/", "Please fill a valid email address"],
+    match: [new RegExp(/.+@.+..+/), "Please fill a valid email address"],
     required: "Email is required",
   },
   hashed_password: {
