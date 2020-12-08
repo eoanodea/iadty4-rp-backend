@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (art@psioniq.uk)
  * -----
  * File Description: Model which represents the User schema
- * Last Modified: Tuesday, 8th December 2020 6:24:42 pm
+ * Last Modified: Tuesday, 8th December 2020 7:17:49 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -48,7 +48,7 @@ export interface IUser extends IUserDocument {
  * Schema for a user
  */
 const UserSchema: Schema = new Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: "Username is required" },
   created: { type: Date, default: Date.now },
   updated: { type: Date },
   email: {
