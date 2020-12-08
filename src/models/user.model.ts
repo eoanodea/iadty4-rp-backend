@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (art@psioniq.uk)
  * -----
  * File Description: Model which represents the User schema
- * Last Modified: Tuesday, 8th December 2020 8:24:23 pm
+ * Last Modified: Tuesday, 8th December 2020 8:25:25 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -19,20 +19,20 @@ import crypto from "crypto";
  * Type declaration for User Schema Fields
  */
 export interface IUserDocument extends Document {
-  _id: String;
-  name: String;
+  _id: string;
+  name: string;
   created: Date;
   updated: Date;
-  email: String;
-  hashed_password: String;
-  salt: String;
-  resetPasswordToken: String;
+  email: string;
+  hashed_password: string;
+  salt: string;
+  resetPasswordToken: string;
   resetPasswordExpires: Date;
-  confirmEmailToken: String;
-  confirmEmailTokenExpires: String;
-  oAuthToken: String;
-  accessToken: String;
-  refreshToken: String;
+  confirmEmailToken: string;
+  confirmEmailTokenExpires: string;
+  oAuthToken: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 /**
