@@ -42,7 +42,7 @@
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
-    "mongoose": "^5.9.18",
+    "mongoose": "^5.11.15",
     "node-fetch": "^2.6.1",
     "ts-loader": "^7.0.5"
   },
@@ -55,7 +55,6 @@
     "@types/express-jwt": "0.0.42",
     "@types/helmet": "0.0.47",
     "@types/jsonwebtoken": "^8.5.0",
-    "@types/mongoose": "^5.7.23",
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.6",
     "@types/compression": "^1.7.0",
