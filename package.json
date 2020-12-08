@@ -42,11 +42,12 @@
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
-    "mongoose": "^5.11.15",
+    "mongoose": "^5.9.18",
     "node-fetch": "^2.6.1",
     "ts-loader": "^7.0.5"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.7.23",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
