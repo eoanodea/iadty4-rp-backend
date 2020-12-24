@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 3:41:42 pm
+ * Last Modified: Thursday, 24th December 2020 4:25:59 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -49,8 +49,13 @@ export class UserResolver {
     @Ctx() ctx: MyContext
   ): Promise<User> {
     const user = new User(input);
-    await ctx.em.persist(user).flush();
-    return user;
+    try {
+      await ctx.em.persist(user).flush();
+      return user;
+    } catch (err) {
+      console.log("error adding user", err);
+      return null;
+    }
   }
 
   @Mutation(() => User)

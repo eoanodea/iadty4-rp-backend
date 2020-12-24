@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 3:38:49 pm
+ * Last Modified: Thursday, 24th December 2020 4:29:18 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -67,6 +67,7 @@ export const ErrorInterceptor: MiddlewareFn<MyContext> = async (
             data: {},
           };
       if (!isSafe) console.error(clientError);
+      else console.log("no not logged at all");
       // Attach properly formatted error
       context.res.status(clientError.status).send({ error: clientError });
       // next();

@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 3:42:33 pm
+ * Last Modified: Thursday, 24th December 2020 3:58:24 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -46,7 +46,6 @@ export class LessonResolver {
   public async addLesson(
     @Arg("input") input: LessonValidator,
     @Arg("userId") userId: string,
-    @Arg("publisherId", { nullable: true }) publisherId: string,
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson> {
