@@ -53,7 +53,7 @@ export class LessonResolver {
     const lesson = new Lesson(input);
     lesson.user = await ctx.em.getRepository(User).findOneOrFail(
       { id: userId }
-      //, fieldsToRelations(info, { root: "user" })
+      // , fieldsToRelations(info, { root: "user" })
     );
 
     // if (publisherId) {
