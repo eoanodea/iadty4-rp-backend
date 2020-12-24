@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Wednesday, 23rd December 2020 6:49:07 pm
+ * Last Modified: Thursday, 24th December 2020 2:43:39 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -21,9 +21,10 @@ import {
   Property,
   Unique,
 } from "@mikro-orm/core";
-import UserValidator from "../contracts/validators/user.validator";
+import { UserValidator } from "../contracts/validators";
 import { Field, ObjectType } from "type-graphql";
 import { Base } from "./base.entity";
+import { Lesson } from "./lesson.entity";
 
 @ObjectType()
 @Entity()
@@ -40,7 +41,7 @@ export class User extends Base<User> {
 
   @Field()
   @Property()
-  public hashed_password: string;
+  public hashedPassword: string;
 
   @Field()
   @Property()
@@ -57,9 +58,9 @@ export class User extends Base<User> {
   //   @Property({ nullable: true })
   //   public born?: Date;
 
-  //   @Field(() => [Book])
-  //   @OneToMany(() => Book, (b: Book) => b.user, { cascade: [Cascade.ALL] })
-  //   public books = new Collection<Book>(this);
+  @Field(() => [Lesson])
+  @OneToMany(() => Lesson, (b: Lesson) => b.user, { cascade: [Cascade.ALL] })
+  public completedLessons = new Collection<Lesson>(this);
 
   //   @Field(() => Book, { nullable: true })
   //   @ManyToOne(() => Book, { nullable: true })

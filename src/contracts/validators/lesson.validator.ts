@@ -12,16 +12,20 @@
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { IsDate, IsEmail, IsOptional, IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
 @InputType()
-export class UserValidator {
+export class LessonValidator {
   @Field()
   @IsString()
-  public name: string;
+  public title: string;
 
   @Field()
-  @IsEmail()
-  public email: string;
+  @IsNumber()
+  public level: number;
+
+  @Field()
+  @IsString()
+  public answer: string;
 }

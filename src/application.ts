@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Wednesday, 23rd December 2020 6:44:08 pm
+ * Last Modified: Thursday, 24th December 2020 3:34:52 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -25,10 +25,11 @@ import { GraphQLSchema } from "graphql";
 import expressPlayground from "graphql-playground-middleware-express";
 import { Server } from "http";
 import ormConfig from "./orm.config";
-import { UserResolver } from "./resolvers/user.resolver";
+import { UserResolver, LessonResolver } from "./resolvers";
 // import { BookResolver } from "resolvers/book.resolver";
 import { buildSchema, registerEnumType } from "type-graphql";
 import { MyContext } from "./utils/interfaces/context.interface";
+import { ErrorInterceptor } from "middleware/errors";
 
 // TODO: create service for this
 // registerEnumType(PublisherType, {
@@ -38,18 +39,18 @@ import { MyContext } from "./utils/interfaces/context.interface";
 
 export default class Application {
   public orm: MikroORM<IDatabaseDriver<Connection>>;
-  //@ts-ignore
   public host: express.Application;
   public server: Server;
 
   public connect = async (): Promise<void> => {
     try {
       this.orm = await MikroORM.init(ormConfig);
-      const migrator = this.orm.getMigrator();
-      const migrations = await migrator.getPendingMigrations();
-      if (migrations && migrations.length > 0) {
-        await migrator.up();
-      }
+
+      // const migrator = this.orm.getMigrator();
+      // const migrations = await migrator.getPendingMigrations();
+      // if (migrations && migrations.length > 0) {
+      //   await migrator.up();
+      // }
     } catch (error) {
       console.error("📌 Could not connect to the database", error);
       throw Error(error);
@@ -67,8 +68,9 @@ export default class Application {
 
     try {
       const schema: GraphQLSchema = await buildSchema({
-        resolvers: [UserResolver],
+        resolvers: [UserResolver, LessonResolver],
         dateScalarMode: "isoDate",
+        globalMiddlewares: [ErrorInterceptor],
       });
 
       this.host.post(
@@ -87,11 +89,8 @@ export default class Application {
       this.host.use(
         (
           error: Error,
-          //@ts-ignore
           req: express.Request,
-          //@ts-ignore
           res: express.Response,
-          //@ts-ignore
           next: express.NextFunction
         ): void => {
           console.error("📌 Something went wrong", error);

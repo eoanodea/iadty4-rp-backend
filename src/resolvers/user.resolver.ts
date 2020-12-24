@@ -6,16 +6,16 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Wednesday, 23rd December 2020 6:07:58 pm
+ * Last Modified: Thursday, 24th December 2020 3:41:42 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import UserValidator from "contracts/validators/User.validator";
+import { UserValidator } from "contracts/validators";
 import { User } from "entities/user.entity";
 import { GraphQLResolveInfo } from "graphql";
-import fieldsToRelations from "graphql-fields-to-relations";
+// import fieldsToRelations from "graphql-fields-to-relations";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "utils/interfaces/context.interface";
 
@@ -26,8 +26,9 @@ export class UserResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<User[]> {
-    const relationPaths = fieldsToRelations(info);
-    return ctx.em.getRepository(User).findAll(relationPaths);
+    // const relationPaths = fieldsToRelations(info);
+    return ctx.em.find(User, {}).catch((err) => null);
+    return ctx.em.getRepository(User).findAll({});
   }
 
   @Query(() => User, { nullable: true })
@@ -36,8 +37,10 @@ export class UserResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<User | null> {
-    const relationPaths = fieldsToRelations(info);
-    return ctx.em.getRepository(User).findOne({ id }, relationPaths);
+    // const relationPaths = fieldsToRelations(info);
+
+    return ctx.em.getRepository(User).findOne({ id });
+    // return ctx.em.getRepository(User).findOne({ id }, relationPaths);
   }
 
   @Mutation(() => User)
@@ -57,10 +60,8 @@ export class UserResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<User> {
-    const relationPaths = fieldsToRelations(info);
-    const user = await ctx.em
-      .getRepository(User)
-      .findOneOrFail({ id }, relationPaths);
+    // const relationPaths = fieldsToRelations(info);
+    const user = await ctx.em.getRepository(User).findOneOrFail({ id });
     user.assign(input);
     await ctx.em.persist(user).flush();
     return user;
