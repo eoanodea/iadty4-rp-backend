@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 9:16:33 am
+ * Last Modified: Monday, 28th December 2020 9:49:11 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -94,7 +94,7 @@ export default class Application {
           next: express.NextFunction
         ): void => {
           console.error("📌 Something went wrong", error);
-          res.status(400).send(error);
+          // res.status(400).send(error);
         }
       );
 

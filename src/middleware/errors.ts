@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 9:22:42 am
+ * Last Modified: Monday, 28th December 2020 10:06:04 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -59,27 +59,73 @@ export const ErrorInterceptor: MiddlewareFn<MyContext> = async (
           : err.data;
 
       // Generate or format response to be consistent - we don't want to include the stack trace etc
-      const error = isSafe
-        ? {
-            message: err.message,
-            code: err.code,
-            status: err.status || 500,
-            data: data,
-          }
-        : {
-            message: "Something went wrong, please contact support.",
-            code: "INTERNAL_ERROR",
-            status: 500,
-            data: data,
-          };
+      const error = safeErrorMessage(err, data);
+
       if (!isSafe) console.error(error);
 
       // Attach properly formatted error
       return context.res.status(error.status).send(error);
-      // next();
     })
     .catch((err) => {
       // If there is an error with the above - throw it
+      console.log("error!!!!", err);
       throw err;
     });
+};
+
+const safeErrorMessage = (
+  err: {
+    code?: number;
+    message?: string;
+    status?: any;
+  },
+  data?: any
+) => {
+  let response = {
+    status: 500,
+    message: "Something went wrong, please contact support.",
+    code: "INTERNAL_ERROR",
+  };
+
+  if (err.code) {
+    switch (err.code) {
+      case 11000:
+      case 11001:
+        response.message = getUniqueErrorMessage(err);
+        response.status = 400;
+        response.code = "BAD_REQUEST";
+        break;
+    }
+  } else if (err.message === "Argument Validation Error") {
+    response.message = Object.values(data[0].constraints)[0] as string;
+    response.status = 422;
+    response.code = "UNPROCESSABLE_ENTITY";
+  }
+
+  return response;
+};
+
+/**
+ * Generates a safe error message for the client
+ * Removing table names and stack traces
+ *
+ * @param err - An error object
+ *
+ * @returns {String} - Safe error message
+ */
+const getUniqueErrorMessage = (err) => {
+  let output;
+
+  try {
+    const obj = err.keyValue;
+    const arr = Object.entries(obj);
+
+    const msg = `${arr.map((dat) => dat)} already exists`;
+
+    output = msg.replace(",", " ");
+  } catch (ex) {
+    output = "Unique field already exists";
+  }
+
+  return output;
 };
