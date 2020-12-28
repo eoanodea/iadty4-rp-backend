@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 2:40:07 pm
+ * Last Modified: Monday, 28th December 2020 1:30:17 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -15,3 +15,4 @@
 export * from "./base.entity";
 export * from "./user.entity";
 export * from "./lesson.entity";
+export * from "./auth.entity";

@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description: An Entity which represents a user within the DB
- * Last Modified: Monday, 28th December 2020 10:50:31 am
+ * Last Modified: Monday, 28th December 2020 12:19:57 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -41,10 +41,6 @@ export class User extends Base<User> {
   @Field()
   @Property()
   public password: string;
-
-  // @Field()
-  // @Property()
-  // public salt: string;
 
   @Field(() => [Lesson])
   @OneToMany(() => Lesson, (b: Lesson) => b.user, { cascade: [Cascade.ALL] })

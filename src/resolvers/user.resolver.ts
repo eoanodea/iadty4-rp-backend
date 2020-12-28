@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 10:51:29 am
+ * Last Modified: Monday, 28th December 2020 12:27:27 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -59,12 +59,9 @@ export class UserResolver {
 
       return user;
     } catch (err) {
-      console.log("errors found!", err);
+      console.log("Error creating user", err);
       throw err;
     }
-    // validate(user).then(errors => {
-    //   if(errors.length > 0) {
-    //   }
   }
 
   @Mutation(() => User)

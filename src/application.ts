@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 10:45:17 am
+ * Last Modified: Monday, 28th December 2020 1:17:57 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -25,7 +25,7 @@ import { GraphQLSchema } from "graphql";
 import expressPlayground from "graphql-playground-middleware-express";
 import { Server } from "http";
 import ormConfig from "./orm.config";
-import { UserResolver, LessonResolver } from "./resolvers";
+import { UserResolver, LessonResolver, AuthResolver } from "./resolvers";
 // import { BookResolver } from "resolvers/book.resolver";
 import { buildSchema, registerEnumType } from "type-graphql";
 import { MyContext } from "./utils/interfaces/context.interface";
@@ -72,7 +72,7 @@ export default class Application {
 
     try {
       const schema: GraphQLSchema = await buildSchema({
-        resolvers: [UserResolver, LessonResolver],
+        resolvers: [AuthResolver, UserResolver, LessonResolver],
         dateScalarMode: "isoDate",
         globalMiddlewares: [ErrorInterceptor],
       });

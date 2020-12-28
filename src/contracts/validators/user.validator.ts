@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 10:38:15 am
+ * Last Modified: Monday, 28th December 2020 12:19:35 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -43,3 +43,20 @@ export class UserValidator {
   })
   public password: string;
 }
+
+// @InputType()
+// export class UpdateUserValidator {
+//   @Field()
+//   @IsString()
+//   public name: string;
+
+//   @Field()
+//   @IsEmail()
+//   public email: string;
+
+//   @IsString()
+//   @MinLength(6, {
+//     message: "Password must be at least 6 characters",
+//   })
+//   public password: string;
+// }
