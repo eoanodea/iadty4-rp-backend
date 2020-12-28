@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 4:37:10 pm
+ * Last Modified: Monday, 28th December 2020 9:26:39 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -30,11 +30,13 @@ import { Lesson } from "./lesson.entity";
 @Entity()
 export class User extends Base<User> {
   @Field()
-  @Property({ unique: true })
+  @Property()
+  @Unique()
   public name: string;
 
   @Field()
-  @Property({ unique: true, index: true })
+  @Property()
+  @Unique()
   public email: string;
 
   @Field()

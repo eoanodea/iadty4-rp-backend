@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 3:37:06 pm
+ * Last Modified: Monday, 28th December 2020 9:33:46 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -26,6 +26,7 @@ const options: Options = {
   clientUrl: config.mongoUri,
   highlighter: new MongoHighlighter(),
   debug: config.env === "development",
+  ensureIndexes: true,
 };
 
 export default options;

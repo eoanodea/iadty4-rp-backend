@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 4:29:18 pm
+ * Last Modified: Monday, 28th December 2020 9:22:42 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -49,27 +49,33 @@ export const ErrorInterceptor: MiddlewareFn<MyContext> = async (
   return next()
     .catch((err) => {
       // Check if the error is client safe
-      const isSafe = err instanceof ClientSafeError;
-      if (config.env === "development") console.error(err);
+      const isSafe = config.env === "development";
+      //err instanceof ClientSafeError;
+      if (config.env === "development") console.error("hello", err);
+
+      let data =
+        err.message === "Argument Validation Error"
+          ? err.validationErrors
+          : err.data;
 
       // Generate or format response to be consistent - we don't want to include the stack trace etc
-      const clientError = isSafe
+      const error = isSafe
         ? {
             message: err.message,
             code: err.code,
-            status: err.status,
-            data: err.data,
+            status: err.status || 500,
+            data: data,
           }
         : {
             message: "Something went wrong, please contact support.",
             code: "INTERNAL_ERROR",
             status: 500,
-            data: {},
+            data: data,
           };
-      if (!isSafe) console.error(clientError);
-      else console.log("no not logged at all");
+      if (!isSafe) console.error(error);
+
       // Attach properly formatted error
-      context.res.status(clientError.status).send({ error: clientError });
+      return context.res.status(error.status).send(error);
       // next();
     })
     .catch((err) => {

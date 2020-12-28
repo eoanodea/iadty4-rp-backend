@@ -6,12 +6,13 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 4:25:59 pm
+ * Last Modified: Sunday, 27th December 2020 4:37:24 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
+import { validate } from "class-validator";
 import { UserValidator } from "contracts/validators";
 import { User } from "entities/user.entity";
 import { GraphQLResolveInfo } from "graphql";
@@ -48,14 +49,18 @@ export class UserResolver {
     @Arg("input") input: UserValidator,
     @Ctx() ctx: MyContext
   ): Promise<User> {
+    // try {
     const user = new User(input);
-    try {
-      await ctx.em.persist(user).flush();
-      return user;
-    } catch (err) {
-      console.log("error adding user", err);
-      return null;
-    }
+    // await validate(user);
+    await ctx.em.persist(user).flush();
+
+    return user;
+    // } catch (err) {
+    // console.log("errors found!", err);
+    // }
+    // validate(user).then(errors => {
+    //   if(errors.length > 0) {
+    //   }
   }
 
   @Mutation(() => User)

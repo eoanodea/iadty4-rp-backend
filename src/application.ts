@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 3:34:52 pm
+ * Last Modified: Monday, 28th December 2020 9:16:33 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -100,7 +100,10 @@ export default class Application {
 
       const port = process.env.PORT || 4000;
       this.server = this.host.listen(port, () => {
-        console.log(`🚀 http://localhost:${port}/graphql`);
+        console.log(`🚀
+        Server running at  \x1b[36mhttp://localhost:${port}\x1b[0m
+        GraphQL playground running at \x1b[35mhttp://localhost:${port}/graphql\x1b[0m 
+        `);
       });
     } catch (error) {
       console.error("📌 Could not start server", error);
