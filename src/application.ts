@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 1:17:57 pm
+ * Last Modified: Monday, 28th December 2020 2:30:13 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -30,9 +30,10 @@ import { UserResolver, LessonResolver, AuthResolver } from "./resolvers";
 import { buildSchema, registerEnumType } from "type-graphql";
 import { MyContext } from "./utils/interfaces/context.interface";
 import {
+  buildErrObj,
   ClientSafeError,
   ErrorInterceptor,
-  safeErrorMessage,
+  // safeErrorMessage,
 } from "middleware/errors";
 
 // TODO: create service for this
@@ -99,10 +100,8 @@ export default class Application {
         ): void => {
           console.error("📌 Something went wrong", error, error.message);
           if (error.message.includes("Validator")) {
-            res.status(400).send(safeErrorMessage(error));
+            res.status(400).send(buildErrObj(error));
           }
-
-          // throw new ClientSafeError("Something went wrong", 500, "INTERNAL");
         }
       );
 

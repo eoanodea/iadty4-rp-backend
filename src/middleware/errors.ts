@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 10:45:19 am
+ * Last Modified: Monday, 28th December 2020 2:29:27 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -24,6 +24,7 @@ export class ClientSafeError extends Error {
   code: string;
   status: number;
   data: object;
+  message: string;
   constructor(
     message = "Something went wrong, please contact support.",
     status = 500,
@@ -49,64 +50,60 @@ export const ErrorInterceptor: MiddlewareFn<MyContext> = async (
   return next()
     .catch((err) => {
       // Check if the error is client safe
-      const isSafe = config.env === "development";
-      //err instanceof ClientSafeError;
-      if (config.env === "development") console.error("hello", err);
-
-      let data =
-        err.message === "Argument Validation Error"
-          ? err.validationErrors
-          : err.data;
+      const isSafe = err instanceof ClientSafeError;
+      if (config.env === "development") console.error(err);
 
       // Generate or format response to be consistent - we don't want to include the stack trace etc
-      const error = safeErrorMessage(err, data);
+      const error = isSafe
+        ? {
+            message: err.message,
+            code: err.code,
+            status: err.status,
+            data: err.data,
+          }
+        : buildErrObj(err);
 
       if (!isSafe) console.error(error);
-
       // Attach properly formatted error
-      return context.res.status(error.status).send(error);
+      context.res.status(error.status).send(error);
+      // next();
     })
     .catch((err) => {
       // If there is an error with the above - throw it
-      console.log("error!!!!", err);
       throw err;
     });
 };
 
-export const safeErrorMessage = (
-  err: {
-    code?: number;
-    message?: string;
-    status?: any;
-  },
-  data?: any
-) => {
-  let response = {
-    status: 500,
+export const buildErrObj = (err) => {
+  const obj = {
     message: "Something went wrong, please contact support.",
     code: "INTERNAL_ERROR",
+    status: 500,
+    data: {},
   };
 
   if (err.code) {
     switch (err.code) {
       case 11000:
       case 11001:
-        response.message = getUniqueErrorMessage(err);
-        response.status = 400;
-        response.code = "BAD_REQUEST";
+        obj.message = getUniqueErrorMessage(err);
+        obj.status = 400;
+        obj.code = "BAD_REQUEST";
         break;
     }
   } else if (err.message === "Argument Validation Error") {
-    response.message = Object.values(data[0].constraints)[0] as string;
-    response.status = 422;
-    response.code = "UNPROCESSABLE_ENTITY";
+    obj.message = Object.values(
+      err.validationErrors[0].constraints
+    )[0] as string;
+    obj.status = 422;
+    obj.code = "UNPROCESSABLE_ENTITY";
   } else if (err.message.includes("Validator")) {
-    response.message = err.message.split(".")[1] as string;
-    response.status = 422;
-    response.code = "UNPROCESSABLE_ENTITY";
+    obj.message = err.message.split(".")[1] as string;
+    obj.status = 422;
+    obj.code = "UNPROCESSABLE_ENTITY";
   }
 
-  return response;
+  return obj;
 };
 
 /**
