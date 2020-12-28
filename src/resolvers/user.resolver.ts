@@ -6,12 +6,13 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Sunday, 27th December 2020 4:37:24 pm
+ * Last Modified: Monday, 28th December 2020 10:51:29 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
+import { hash } from "argon2";
 import { validate } from "class-validator";
 import { UserValidator } from "contracts/validators";
 import { User } from "entities/user.entity";
@@ -49,15 +50,18 @@ export class UserResolver {
     @Arg("input") input: UserValidator,
     @Ctx() ctx: MyContext
   ): Promise<User> {
-    // try {
-    const user = new User(input);
-    // await validate(user);
-    await ctx.em.persist(user).flush();
+    try {
+      let user = new User(input);
+      const hashedPassword = await hash(input.password);
+      user.password = hashedPassword;
 
-    return user;
-    // } catch (err) {
-    // console.log("errors found!", err);
-    // }
+      await ctx.em.persist(user).flush();
+
+      return user;
+    } catch (err) {
+      console.log("errors found!", err);
+      throw err;
+    }
     // validate(user).then(errors => {
     //   if(errors.length > 0) {
     //   }

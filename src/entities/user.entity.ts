@@ -5,8 +5,8 @@
  * File Created: Wednesday, 23rd December 2020 6:12:23 pm
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
- * File Description:
- * Last Modified: Monday, 28th December 2020 9:26:39 am
+ * File Description: An Entity which represents a user within the DB
+ * Last Modified: Monday, 28th December 2020 10:50:31 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -16,7 +16,6 @@ import {
   Cascade,
   Collection,
   Entity,
-  ManyToOne,
   OneToMany,
   Property,
   Unique,
@@ -41,26 +40,15 @@ export class User extends Base<User> {
 
   @Field()
   @Property()
-  public hashedPassword: string;
+  public password: string;
 
-  @Field()
-  @Property()
-  public salt: string;
-
-  //   @Property()
-  //   public termsAccepted = false;
-
-  //   @Field({ nullable: true })
-  //   @Property({ nullable: true })
-  //   public born?: Date;
+  // @Field()
+  // @Property()
+  // public salt: string;
 
   @Field(() => [Lesson])
   @OneToMany(() => Lesson, (b: Lesson) => b.user, { cascade: [Cascade.ALL] })
   public completedLessons = new Collection<Lesson>(this);
-
-  //   @Field(() => Book, { nullable: true })
-  //   @ManyToOne(() => Book, { nullable: true })
-  //   public favouriteBook?: Book;
 
   constructor(body: UserValidator) {
     super(body);

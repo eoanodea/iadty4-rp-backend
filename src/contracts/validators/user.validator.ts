@@ -6,22 +6,40 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 9:09:09 am
+ * Last Modified: Monday, 28th December 2020 10:38:15 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { IsDate, IsEmail, IsOptional, IsString } from "class-validator";
+import {
+  IsDate,
+  IsDefined,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from "class-validator";
 import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class UserValidator {
   @Field()
   @IsString()
+  @IsNotEmpty()
   public name: string;
 
   @Field()
   @IsEmail()
+  @IsNotEmpty()
   public email: string;
+
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(6, {
+    message: "Password must be at least 6 characters",
+  })
+  public password: string;
 }

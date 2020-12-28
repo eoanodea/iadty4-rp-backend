@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 10:06:04 am
+ * Last Modified: Monday, 28th December 2020 10:45:19 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -73,7 +73,7 @@ export const ErrorInterceptor: MiddlewareFn<MyContext> = async (
     });
 };
 
-const safeErrorMessage = (
+export const safeErrorMessage = (
   err: {
     code?: number;
     message?: string;
@@ -98,6 +98,10 @@ const safeErrorMessage = (
     }
   } else if (err.message === "Argument Validation Error") {
     response.message = Object.values(data[0].constraints)[0] as string;
+    response.status = 422;
+    response.code = "UNPROCESSABLE_ENTITY";
+  } else if (err.message.includes("Validator")) {
+    response.message = err.message.split(".")[1] as string;
     response.status = 422;
     response.code = "UNPROCESSABLE_ENTITY";
   }

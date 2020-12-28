@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 9:49:11 am
+ * Last Modified: Monday, 28th December 2020 10:45:17 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -29,7 +29,11 @@ import { UserResolver, LessonResolver } from "./resolvers";
 // import { BookResolver } from "resolvers/book.resolver";
 import { buildSchema, registerEnumType } from "type-graphql";
 import { MyContext } from "./utils/interfaces/context.interface";
-import { ErrorInterceptor } from "middleware/errors";
+import {
+  ClientSafeError,
+  ErrorInterceptor,
+  safeErrorMessage,
+} from "middleware/errors";
 
 // TODO: create service for this
 // registerEnumType(PublisherType, {
@@ -93,8 +97,12 @@ export default class Application {
           res: express.Response,
           next: express.NextFunction
         ): void => {
-          console.error("📌 Something went wrong", error);
-          // res.status(400).send(error);
+          console.error("📌 Something went wrong", error, error.message);
+          if (error.message.includes("Validator")) {
+            res.status(400).send(safeErrorMessage(error));
+          }
+
+          // throw new ClientSafeError("Something went wrong", 500, "INTERNAL");
         }
       );
 
