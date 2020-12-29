@@ -6,32 +6,20 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 2:08:14 pm
+ * Last Modified: Monday, 28th December 2020 4:45:33 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { verify } from "argon2";
-import jwt from "jsonwebtoken";
-import expressJwt from "express-jwt";
-
 import { AuthValidator } from "contracts/validators";
 import { LoggedIn, User } from "entities";
-import {
-  Resolver,
-  Mutation,
-  Ctx,
-  Arg,
-  ObjectType,
-  Field,
-  Query,
-  Info,
-} from "type-graphql";
+import { Resolver, Mutation, Ctx, Arg, Query, Info } from "type-graphql";
 import { MyContext } from "utils/interfaces/context.interface";
-import config from "../../config";
 import { ClientSafeError } from "middleware/errors";
 import { GraphQLResolveInfo } from "graphql";
+import { generateToken } from "middleware/jwt";
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -41,7 +29,7 @@ export class AuthResolver {
     @Info() info: GraphQLResolveInfo
   ): Promise<User> {
     try {
-      const user = await ctx.em.findOneOrFail(User, { id: ctx.req.auth._id });
+      const user = await ctx.em.findOneOrFail(User, { id: ctx.auth._id });
 
       return user;
     } catch (err) {
@@ -61,24 +49,16 @@ export class AuthResolver {
     try {
       const user = await ctx.em.findOneOrFail(User, { email: input.email });
       if (await verify(user.password, input.password)) {
-        const token = jwt.sign(
-          {
-            _id: user.id,
-          },
-          config.jwtSecret
-        );
+        const token = generateToken(user.id);
 
-        // ctx.res.cookie("t", token, {
-        //   expires: new Date(Date.now() + parseInt(config.SESSION_TTL, 10)),
-        //   httpOnly: false,
-        // });
-
-        // console.log("yes here is token!", token);
         return { token, user };
       } else throw new ClientSafeError("Incorrect Password", 403, "AUTH_ERROR");
-      //   ctx.req.session.userId = user.id;
     } catch (err) {
-      throw new ClientSafeError("Incorrect Email or Password");
+      throw new ClientSafeError(
+        "Incorrect Email or Password",
+        403,
+        "AUTH_ERROR"
+      );
     }
   }
 }

@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 2:30:13 pm
+ * Last Modified: Monday, 28th December 2020 4:47:29 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -17,8 +17,7 @@ import express from "express";
 import "express-async-errors";
 
 import { Connection, IDatabaseDriver, MikroORM } from "@mikro-orm/core";
-import bodyParser from "body-parser";
-// import { PublisherType } from "contracts/enums/publisherType.enum";
+
 import cors from "cors";
 import { graphqlHTTP } from "express-graphql";
 import { GraphQLSchema } from "graphql";
@@ -27,7 +26,7 @@ import { Server } from "http";
 import ormConfig from "./orm.config";
 import { UserResolver, LessonResolver, AuthResolver } from "./resolvers";
 // import { BookResolver } from "resolvers/book.resolver";
-import { buildSchema, registerEnumType } from "type-graphql";
+import { buildSchema } from "type-graphql";
 import { MyContext } from "./utils/interfaces/context.interface";
 import {
   buildErrObj,
@@ -35,6 +34,8 @@ import {
   ErrorInterceptor,
   // safeErrorMessage,
 } from "middleware/errors";
+import { ApolloServer } from "apollo-server-express";
+import { verifyToken } from "middleware/jwt";
 
 // TODO: create service for this
 // registerEnumType(PublisherType, {
@@ -50,12 +51,6 @@ export default class Application {
   public connect = async (): Promise<void> => {
     try {
       this.orm = await MikroORM.init(ormConfig);
-
-      // const migrator = this.orm.getMigrator();
-      // const migrations = await migrator.getPendingMigrations();
-      // if (migrations && migrations.length > 0) {
-      //   await migrator.up();
-      // }
     } catch (error) {
       console.error("📌 Could not connect to the database", error);
       throw Error(error);
@@ -78,17 +73,35 @@ export default class Application {
         globalMiddlewares: [ErrorInterceptor],
       });
 
-      this.host.post(
-        "/graphql",
-        bodyParser.json(),
-        graphqlHTTP((req: any, res: any) => ({
-          schema,
-          context: { req, res, em: this.orm.em.fork() } as MyContext,
-          customFormatErrorFn: (error: any) => {
-            throw error;
-          },
-        }))
-      );
+      const apollo = new ApolloServer({
+        schema,
+        // formatError: (error: any) => {
+        //   throw error;
+        // },
+        context: ({ req, res }) => {
+          // Get the user token from the headers.
+          const token = req.headers.authorization || "";
+
+          // try to retrieve a user with the token
+          const auth = verifyToken(token.replace("Bearer ", ""));
+
+          return { auth, req, res, em: this.orm.em };
+
+          //return { req, res, em: this.orm.em };
+        },
+      });
+
+      // this.host.post(
+      //   "/graphql",
+      //   bodyParser.json(),
+      //   graphqlHTTP((req: any, res: any) => ({
+      //     schema,
+      //     context: { req, res, em: this.orm.em.fork() } as MyContext,
+      // customFormatErrorFn: (error: any) => {
+      //   throw error;
+      // },
+      //   }))
+      // );
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       this.host.use(
@@ -104,6 +117,8 @@ export default class Application {
           }
         }
       );
+
+      apollo.applyMiddleware({ app: this.host });
 
       const port = process.env.PORT || 4000;
       this.server = this.host.listen(port, () => {
