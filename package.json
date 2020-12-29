@@ -19,6 +19,9 @@
     "node.js",
     "express.js",
     "graphQL",
+    "apollo-express",
+    "mikro-orm",
+    "jwt",
     "mongoDB",
     "music-theory"
   ],
