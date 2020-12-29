@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description: An Entity which represents a user within the DB
- * Last Modified: Tuesday, 29th December 2020 2:47:17 pm
+ * Last Modified: Tuesday, 29th December 2020 3:12:00 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -22,8 +22,7 @@ import {
 } from "@mikro-orm/core";
 import { UserValidator } from "../contracts/validators";
 import { Field, ObjectType } from "type-graphql";
-import { Base } from "./base.entity";
-import { Lesson } from "./lesson.entity";
+import { Question, Base, Lesson } from "./";
 
 @ObjectType()
 @Entity()
@@ -44,6 +43,12 @@ export class User extends Base<User> {
   @Field(() => [Lesson])
   @OneToMany(() => Lesson, (b: Lesson) => b.user, { cascade: [Cascade.ALL] })
   public completedLessons = new Collection<Lesson>(this);
+
+  @Field(() => [Question])
+  @OneToMany(() => Question, (b: Question) => b.user, {
+    cascade: [Cascade.ALL],
+  })
+  public incorrectQuestions = new Collection<Question>(this);
 
   constructor(body: UserValidator) {
     super(body);

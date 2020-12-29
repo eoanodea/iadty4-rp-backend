@@ -12,43 +12,41 @@
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import {
-  Collection,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  Property,
-} from "@mikro-orm/core";
-
+import { Entity, Enum, ManyToOne, Property } from "@mikro-orm/core";
+import { QuestionType } from "contracts/validators/enums/questionType.enum";
 import { Field, ObjectType } from "type-graphql";
 
-import { LessonValidator } from "../contracts/validators";
-import { User, Base, Question } from "./";
+import { QuestionValidator } from "../contracts/validators";
+import { Lesson, Base, User } from "./";
 
 @ObjectType()
 @Entity()
-export class Lesson extends Base<Lesson> {
+export class Question extends Base<Question> {
   @Field()
   @Property()
-  public title: string;
+  public requiresPiano: boolean;
 
   @Field()
   @Property()
-  public level: number;
+  public text: string;
 
   @Field()
   @Property()
   public answer: string;
 
+  @Field(() => QuestionType)
+  @Enum(() => QuestionType)
+  public type: QuestionType;
+
+  @Field(() => Lesson)
+  @ManyToOne(() => Lesson, { onDelete: "restrict" })
+  public lesson: Lesson;
+
   @Field(() => User)
   @ManyToOne(() => User, { onDelete: "restrict" })
   public user: User;
 
-  @Field(() => [Question])
-  @OneToMany(() => Question, (b: Question) => b.lesson)
-  public questions = new Collection<Question>(this);
-
-  constructor(body: LessonValidator) {
+  constructor(body: QuestionValidator) {
     super(body);
   }
 }

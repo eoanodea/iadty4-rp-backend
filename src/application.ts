@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 2:15:21 pm
+ * Last Modified: Tuesday, 29th December 2020 3:13:57 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -31,7 +31,7 @@ import cors from "cors";
  */
 import { GraphQLSchema } from "graphql";
 import expressPlayground from "graphql-playground-middleware-express";
-import { buildSchema } from "type-graphql";
+import { buildSchema, registerEnumType } from "type-graphql";
 import { ApolloServer } from "apollo-server-express";
 
 import { Server } from "http";
@@ -46,6 +46,15 @@ import { UserResolver, LessonResolver, AuthResolver } from "./resolvers";
  */
 import { buildErrObj, ErrorInterceptor } from "middleware/errors";
 import { verifyToken } from "middleware/jwt";
+import { QuestionType } from "contracts/validators/enums/questionType.enum";
+
+/**
+ * Registering Question Type Enum
+ */
+registerEnumType(QuestionType, {
+  name: "QuestionType",
+  description: "Type of the question",
+});
 
 export default class Application {
   public orm: MikroORM<IDatabaseDriver<Connection>>;
