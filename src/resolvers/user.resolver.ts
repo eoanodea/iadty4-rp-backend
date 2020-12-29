@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 2:26:16 pm
+ * Last Modified: Tuesday, 29th December 2020 2:52:55 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -16,6 +16,8 @@ import { hash } from "argon2";
 import { UserValidator } from "contracts/validators";
 import { User } from "entities/user.entity";
 import { GraphQLResolveInfo } from "graphql";
+import { hasAuthorization } from "middleware/auth";
+import { ClientSafeError } from "middleware/errors";
 // import fieldsToRelations from "graphql-fields-to-relations";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "utils/interfaces/context.interface";
@@ -72,9 +74,13 @@ export class UserResolver {
   ): Promise<User> {
     // const relationPaths = fieldsToRelations(info);
     const user = await ctx.em.getRepository(User).findOneOrFail({ id });
-    user.assign(input);
-    await ctx.em.persist(user).flush();
-    return user;
+
+    if (hasAuthorization(ctx, user.id)) {
+      user.assign(input);
+      await ctx.em.persist(user).flush();
+      return user;
+    }
+    throw new ClientSafeError("Not Authorized", 401, "AUTH_ERROR");
   }
 
   @Mutation(() => Boolean)
@@ -83,7 +89,11 @@ export class UserResolver {
     @Ctx() ctx: MyContext
   ): Promise<boolean> {
     const user = await ctx.em.getRepository(User).findOneOrFail({ id });
-    await ctx.em.getRepository(User).remove(user).flush();
-    return true;
+
+    if (hasAuthorization(ctx, user.id)) {
+      await ctx.em.getRepository(User).remove(user).flush();
+      return true;
+    }
+    throw new ClientSafeError("Not Authorized", 401, "AUTH_ERROR");
   }
 }

@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description: An Entity which represents a user within the DB
- * Last Modified: Tuesday, 29th December 2020 2:39:04 pm
+ * Last Modified: Tuesday, 29th December 2020 2:47:17 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -38,7 +38,6 @@ export class User extends Base<User> {
   @Unique()
   public email: string;
 
-  @Field()
   @Property()
   password: string;
 
