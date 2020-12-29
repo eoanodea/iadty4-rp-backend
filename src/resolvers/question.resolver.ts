@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 4:27:16 pm
+ * Last Modified: Tuesday, 29th December 2020 4:40:16 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -14,10 +14,7 @@
 
 import { QuestionValidator } from "contracts/validators";
 import { Lesson, Question } from "entities";
-
-// import { Publisher } from 'entities/publisher.entity';
 import { GraphQLResolveInfo } from "graphql";
-import fieldsToRelations from "graphql-fields-to-relations";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "utils/interfaces/context.interface";
 
@@ -29,11 +26,7 @@ export class QuestionResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Question[]> {
-    // const lesson = await ctx.em.getRepository(Lesson).findOneOrFail({id})
     return ctx.em.find(Question, { lesson: id });
-    // return ctx.em.getRepository(Question).find(fieldsToRelations(info, {
-    //   root: 'lesson'
-    // }));
   }
 
   @Query(() => Question, { nullable: true })

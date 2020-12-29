@@ -6,18 +6,15 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 3:54:05 pm
+ * Last Modified: Tuesday, 29th December 2020 4:40:16 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { LessonValidator } from "contracts/validators";
-import { User, Lesson } from "entities";
-
-// import { Publisher } from 'entities/publisher.entity';
+import { Lesson } from "entities";
 import { GraphQLResolveInfo } from "graphql";
-// import fieldsToRelations from "graphql-fields-to-relations";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "utils/interfaces/context.interface";
 
