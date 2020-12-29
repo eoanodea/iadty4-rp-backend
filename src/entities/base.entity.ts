@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description: Base entity for all entities
- * Last Modified: Wednesday, 23rd December 2020 6:24:19 pm
+ * Last Modified: Tuesday, 29th December 2020 2:39:02 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -26,6 +26,7 @@ export class Base<T extends { id: string }> extends BaseEntity<T, "id"> {
   @PrimaryKey()
   _id!: ObjectId;
 
+  @Field()
   @SerializedPrimaryKey()
   id!: string;
 

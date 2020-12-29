@@ -6,14 +6,13 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 12:27:27 pm
+ * Last Modified: Tuesday, 29th December 2020 2:26:16 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { hash } from "argon2";
-import { validate } from "class-validator";
 import { UserValidator } from "contracts/validators";
 import { User } from "entities/user.entity";
 import { GraphQLResolveInfo } from "graphql";

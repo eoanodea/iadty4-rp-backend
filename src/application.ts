@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 2:14:17 pm
+ * Last Modified: Tuesday, 29th December 2020 2:15:21 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -99,7 +99,6 @@ export default class Application {
       /**
        * Catch errors
        */
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       this.host.use(
         (
           error: Error,

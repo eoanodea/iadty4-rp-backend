@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 4:44:39 pm
+ * Last Modified: Tuesday, 29th December 2020 2:22:44 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -41,8 +41,10 @@ export const generateToken = (id: string) => {
   return jwt.sign(
     {
       _id: id,
-      exp: new Date(Date.now() + parseInt(config.SESSION_TTL, 10)),
     },
-    config.jwtSecret
+    config.jwtSecret,
+    {
+      expiresIn: "1h",
+    }
   );
 };

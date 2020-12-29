@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 4:45:33 pm
+ * Last Modified: Tuesday, 29th December 2020 2:33:16 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -48,6 +48,7 @@ export class AuthResolver {
   ): Promise<{ token: string; user: User }> {
     try {
       const user = await ctx.em.findOneOrFail(User, { email: input.email });
+
       if (await verify(user.password, input.password)) {
         const token = generateToken(user.id);
 
