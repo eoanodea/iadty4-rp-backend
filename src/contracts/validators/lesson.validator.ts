@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 2:43:32 pm
+ * Last Modified: Tuesday, 29th December 2020 4:15:11 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -24,8 +24,4 @@ export class LessonValidator {
   @Field()
   @IsNumber()
   public level: number;
-
-  @Field()
-  @IsString()
-  public answer: string;
 }

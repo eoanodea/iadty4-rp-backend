@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 3:06:32 pm
+ * Last Modified: Tuesday, 29th December 2020 4:32:28 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -20,7 +20,7 @@ import { QuestionType } from "./enums/questionType.enum";
 export class QuestionValidator {
   @Field()
   @IsBoolean()
-  public requiresPiano: string;
+  public requiresPiano: boolean;
 
   @Field()
   @IsString()
@@ -31,6 +31,6 @@ export class QuestionValidator {
   public answer: string;
 
   @Field(() => QuestionType)
-  @IsEnum(() => QuestionType)
+  @IsEnum(QuestionType)
   public type: QuestionType;
 }

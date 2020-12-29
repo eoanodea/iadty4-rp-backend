@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 24th December 2020 3:58:24 pm
+ * Last Modified: Tuesday, 29th December 2020 3:54:05 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -28,7 +28,6 @@ export class LessonResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson[]> {
-    // const relationPaths = fieldsToRelations(info);
     return ctx.em.getRepository(Lesson).findAll({});
   }
 
@@ -38,31 +37,16 @@ export class LessonResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson | null> {
-    // const relationPaths = fieldsToRelations(info);
     return ctx.em.getRepository(Lesson).findOne({ id });
   }
 
   @Mutation(() => Lesson)
   public async addLesson(
     @Arg("input") input: LessonValidator,
-    @Arg("userId") userId: string,
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson> {
     const lesson = new Lesson(input);
-    lesson.user = await ctx.em.getRepository(User).findOneOrFail(
-      { id: userId }
-      // , fieldsToRelations(info, { root: "user" })
-    );
-
-    // if (publisherId) {
-    //   lesson.publisher = await ctx.em.getRepository(Publisher).findOneOrFail(
-    //     { id: publisherId },
-    //     fieldsToRelations(info, {
-    //       root: 'publisher',
-    //     }),
-    //   );
-    // }
     await ctx.em.persist(lesson).flush();
     return lesson;
   }
@@ -74,7 +58,6 @@ export class LessonResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson> {
-    // const relationPaths = fieldsToRelations(info);
     const lesson = await ctx.em.getRepository(Lesson).findOneOrFail({ id });
     lesson.assign(input);
     await ctx.em.persist(lesson).flush();

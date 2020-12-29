@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 3:13:57 pm
+ * Last Modified: Tuesday, 29th December 2020 4:13:04 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -39,7 +39,7 @@ export class Question extends Base<Question> {
   public type: QuestionType;
 
   @Field(() => Lesson)
-  @ManyToOne(() => Lesson, { onDelete: "restrict" })
+  @ManyToOne(() => Lesson, { onDelete: "cascade" })
   public lesson: Lesson;
 
   @Field(() => User)

@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 3:13:57 pm
+ * Last Modified: Tuesday, 29th December 2020 4:28:33 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -39,7 +39,12 @@ import { Server } from "http";
 /**
  * Resolver modules
  */
-import { UserResolver, LessonResolver, AuthResolver } from "./resolvers";
+import {
+  UserResolver,
+  LessonResolver,
+  AuthResolver,
+  QuestionResolver,
+} from "./resolvers";
 
 /**
  * Middleware modules
@@ -87,7 +92,12 @@ export default class Application {
 
     try {
       const schema: GraphQLSchema = await buildSchema({
-        resolvers: [AuthResolver, UserResolver, LessonResolver],
+        resolvers: [
+          AuthResolver,
+          UserResolver,
+          LessonResolver,
+          QuestionResolver,
+        ],
         dateScalarMode: "isoDate",
         globalMiddlewares: [ErrorInterceptor],
       });
