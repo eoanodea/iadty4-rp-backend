@@ -6,48 +6,55 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 4:47:29 pm
+ * Last Modified: Tuesday, 29th December 2020 2:14:17 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-// import express from "express";
+/**
+ * Express Imports
+ */
 import express from "express";
 import "express-async-errors";
 
+/**
+ * Mikro ORM dependencies and config
+ */
 import { Connection, IDatabaseDriver, MikroORM } from "@mikro-orm/core";
+import ormConfig from "./orm.config";
 
 import cors from "cors";
-import { graphqlHTTP } from "express-graphql";
+
+/**
+ * GraphQL and Apollo Dependencies
+ */
 import { GraphQLSchema } from "graphql";
 import expressPlayground from "graphql-playground-middleware-express";
-import { Server } from "http";
-import ormConfig from "./orm.config";
-import { UserResolver, LessonResolver, AuthResolver } from "./resolvers";
-// import { BookResolver } from "resolvers/book.resolver";
 import { buildSchema } from "type-graphql";
-import { MyContext } from "./utils/interfaces/context.interface";
-import {
-  buildErrObj,
-  ClientSafeError,
-  ErrorInterceptor,
-  // safeErrorMessage,
-} from "middleware/errors";
 import { ApolloServer } from "apollo-server-express";
-import { verifyToken } from "middleware/jwt";
 
-// TODO: create service for this
-// registerEnumType(PublisherType, {
-//   name: "PublisherType",
-//   description: "Type of the publisher",
-// });
+import { Server } from "http";
+
+/**
+ * Resolver modules
+ */
+import { UserResolver, LessonResolver, AuthResolver } from "./resolvers";
+
+/**
+ * Middleware modules
+ */
+import { buildErrObj, ErrorInterceptor } from "middleware/errors";
+import { verifyToken } from "middleware/jwt";
 
 export default class Application {
   public orm: MikroORM<IDatabaseDriver<Connection>>;
   public host: express.Application;
   public server: Server;
 
+  /**
+   * Connect to MongoDB through Mikro ORM
+   */
   public connect = async (): Promise<void> => {
     try {
       this.orm = await MikroORM.init(ormConfig);
@@ -57,6 +64,9 @@ export default class Application {
     }
   };
 
+  /**
+   * Initilise the server
+   */
   public init = async (): Promise<void> => {
     this.host = express();
 
@@ -75,9 +85,6 @@ export default class Application {
 
       const apollo = new ApolloServer({
         schema,
-        // formatError: (error: any) => {
-        //   throw error;
-        // },
         context: ({ req, res }) => {
           // Get the user token from the headers.
           const token = req.headers.authorization || "";
@@ -86,23 +93,12 @@ export default class Application {
           const auth = verifyToken(token.replace("Bearer ", ""));
 
           return { auth, req, res, em: this.orm.em };
-
-          //return { req, res, em: this.orm.em };
         },
       });
 
-      // this.host.post(
-      //   "/graphql",
-      //   bodyParser.json(),
-      //   graphqlHTTP((req: any, res: any) => ({
-      //     schema,
-      //     context: { req, res, em: this.orm.em.fork() } as MyContext,
-      // customFormatErrorFn: (error: any) => {
-      //   throw error;
-      // },
-      //   }))
-      // );
-
+      /**
+       * Catch errors
+       */
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       this.host.use(
         (
