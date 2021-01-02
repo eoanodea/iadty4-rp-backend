@@ -6,13 +6,13 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 1:30:25 pm
+ * Last Modified: Saturday, 2nd January 2021 4:51:55 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { User } from "entities";
+import { User } from "./";
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
