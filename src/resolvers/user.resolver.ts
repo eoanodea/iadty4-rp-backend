@@ -46,7 +46,7 @@ export class UserResolver {
     @Ctx() ctx: MyContext
   ): Promise<User> {
     try {
-      let user = new User(input);
+      const user = new User(input);
       const hashedPassword = await hash(input.password);
       user.password = hashedPassword;
 

@@ -6,19 +6,22 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Wednesday, 23rd December 2020 6:01:50 pm
+ * Last Modified: Saturday, 2nd January 2021 4:41:57 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
-
 
 import "dotenv/config";
 import "reflect-metadata";
 
 import Application from "./application";
 (async () => {
-  const application = new Application();
-  await application.connect();
-  await application.init();
+  try {
+    const application = new Application();
+    await application.connect();
+    await application.init();
+  } catch (err) {
+    console.log("❗️ Server Crashed ❗️");
+  }
 })();

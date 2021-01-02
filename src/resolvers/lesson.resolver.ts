@@ -27,7 +27,7 @@ export class LessonResolver {
     @Info() info: GraphQLResolveInfo,
     @Arg("type", { nullable: true }) type?: LessonType
   ): Promise<Lesson[]> {
-    const filter = type ? { type: type } : {};
+    const filter = type ? { type } : {};
 
     return ctx.em.getRepository(Lesson).find(filter);
   }

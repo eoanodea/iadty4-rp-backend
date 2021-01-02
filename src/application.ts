@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 2:07:03 pm
+ * Last Modified: Saturday, 2nd January 2021 4:45:18 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -145,11 +145,13 @@ export default class Application {
 
       apollo.applyMiddleware({ app: this.host });
 
-      const port = process.env.PORT || 4000;
+      const port = process.env.PORT || 3000;
+      const url = process.env.CLIENT_ORIGIN;
+
       this.server = this.host.listen(port, () => {
         console.log(`🚀
-        Server running at  \x1b[36mhttp://localhost:${port}\x1b[0m
-        GraphQL playground running at \x1b[35mhttp://localhost:${port}/graphql\x1b[0m 
+        Server running at  \x1b[36m${url}:${port}\x1b[0m
+        GraphQL playground running at \x1b[35m${url}:${port}/graphql\x1b[0m
         `);
       });
     } catch (error) {
