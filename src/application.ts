@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 4:28:33 pm
+ * Last Modified: Thursday, 31st December 2020 5:10:04 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -127,7 +127,9 @@ export default class Application {
         ): void => {
           console.error("📌 Something went wrong", error, error.message);
           if (error.message.includes("Validator")) {
-            res.status(400).send(buildErrObj(error));
+            // throw error;
+            // res.status(400).send({ errors: [{ message: "Bad" }] });
+            // res.status(400).send(buildErrObj(error));
           }
         }
       );

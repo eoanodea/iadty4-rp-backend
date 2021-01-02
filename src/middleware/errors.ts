@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 28th December 2020 2:29:27 pm
+ * Last Modified: Thursday, 31st December 2020 5:14:49 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -52,7 +52,7 @@ export const ErrorInterceptor: MiddlewareFn<MyContext> = async (
       // Check if the error is client safe
       const isSafe = err instanceof ClientSafeError;
       if (config.env === "development") console.error(err);
-
+      console.log("running error!");
       // Generate or format response to be consistent - we don't want to include the stack trace etc
       const error = isSafe
         ? {
@@ -65,7 +65,8 @@ export const ErrorInterceptor: MiddlewareFn<MyContext> = async (
 
       if (!isSafe) console.error(error);
       // Attach properly formatted error
-      context.res.status(error.status).send(error);
+      context.res.status(error.status).send({ errors: [error] });
+      return;
       // next();
     })
     .catch((err) => {
