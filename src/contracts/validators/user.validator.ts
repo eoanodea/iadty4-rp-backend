@@ -6,21 +6,13 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 2:36:45 pm
+ * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import {
-  IsDate,
-  IsDefined,
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MinLength,
-} from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
 @InputType()

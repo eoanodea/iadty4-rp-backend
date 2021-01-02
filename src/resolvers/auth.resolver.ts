@@ -6,17 +6,17 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 2:33:16 pm
+ * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { verify } from "argon2";
-import { AuthValidator } from "contracts/validators";
-import { LoggedIn, User } from "entities";
+import { AuthValidator } from "../contracts/validators";
+import { LoggedIn, User } from "../entities";
 import { Resolver, Mutation, Ctx, Arg, Query, Info } from "type-graphql";
-import { MyContext } from "utils/interfaces/context.interface";
+import { MyContext } from "../utils/interfaces/context.interface";
 import { ClientSafeError } from "middleware/errors";
 import { GraphQLResolveInfo } from "graphql";
 import { generateToken } from "middleware/jwt";

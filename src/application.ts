@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:48:47 pm
+ * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -49,14 +49,14 @@ import {
 /**
  * Middleware modules
  */
-import { ErrorInterceptor } from "middleware/errors";
-import { verifyToken } from "middleware/jwt";
+import { ErrorInterceptor } from "./middleware/errors";
+import { verifyToken } from "./middleware/jwt";
 
 /**
  * Enum modules
  */
-import { QuestionType } from "contracts/validators/enums/questionType.enum";
-import { LessonType } from "contracts/validators/enums/lessonType.enum";
+import { QuestionType } from "./contracts/validators/enums/questionType.enum";
+import { LessonType } from "./contracts/validators/enums/lessonType.enum";
 
 /**
  * Registering Question Type Enum

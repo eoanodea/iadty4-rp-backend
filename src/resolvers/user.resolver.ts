@@ -6,20 +6,20 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 4:40:16 pm
+ * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { hash } from "argon2";
-import { UserValidator } from "contracts/validators";
-import { User } from "entities/user.entity";
+import { UserValidator } from "../contracts/validators";
+import { User } from "../entities/user.entity";
 import { GraphQLResolveInfo } from "graphql";
-import { hasAuthorization } from "middleware/auth";
-import { ClientSafeError } from "middleware/errors";
+import { hasAuthorization } from "../middleware/auth";
+import { ClientSafeError } from "../middleware/errors";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
-import { MyContext } from "utils/interfaces/context.interface";
+import { MyContext } from "../utils/interfaces/context.interface";
 
 @Resolver(() => User)
 export class UserResolver {

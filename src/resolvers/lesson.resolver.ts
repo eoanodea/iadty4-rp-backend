@@ -6,18 +6,18 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 2:47:41 pm
+ * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { LessonValidator } from "contracts/validators";
-import { LessonType } from "contracts/validators/enums/lessonType.enum";
-import { Lesson } from "entities";
+import { LessonValidator } from "../contracts/validators";
+import { LessonType } from "../contracts/validators/enums/lessonType.enum";
+import { Lesson } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
-import { MyContext } from "utils/interfaces/context.interface";
+import { MyContext } from "../utils/interfaces/context.interface";
 
 @Resolver(() => Lesson)
 export class LessonResolver {

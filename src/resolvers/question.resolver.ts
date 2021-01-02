@@ -6,17 +6,17 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 4:40:16 pm
+ * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { QuestionValidator } from "contracts/validators";
-import { Lesson, Question } from "entities";
+import { QuestionValidator } from "../contracts/validators";
+import { Lesson, Question } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
-import { MyContext } from "utils/interfaces/context.interface";
+import { MyContext } from "../utils/interfaces/context.interface";
 
 @Resolver(() => Question)
 export class QuestionResolver {
