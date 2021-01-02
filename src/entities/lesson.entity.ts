@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:39:00 pm
+ * Last Modified: Saturday, 2nd January 2021 4:49:37 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -16,12 +16,11 @@ import {
   Collection,
   Entity,
   Enum,
-  Filter,
   ManyToOne,
   OneToMany,
   Property,
 } from "@mikro-orm/core";
-import { LessonType } from "contracts/validators/enums/lessonType.enum";
+import { LessonType } from "../contracts/validators/enums/lessonType.enum";
 
 import { Field, ObjectType } from "type-graphql";
 
