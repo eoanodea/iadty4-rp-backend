@@ -6,14 +6,15 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 4:15:11 pm
+ * Last Modified: Saturday, 2nd January 2021 2:08:31 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { IsNumber, IsString } from "class-validator";
+import { IsEnum, IsNumber, IsString } from "class-validator";
 import { Field, InputType } from "type-graphql";
+import { LessonType } from "./enums/lessonType.enum";
 
 @InputType()
 export class LessonValidator {
@@ -24,4 +25,8 @@ export class LessonValidator {
   @Field()
   @IsNumber()
   public level: number;
+
+  @Field(() => LessonType)
+  @IsEnum(LessonType)
+  public type: LessonType;
 }

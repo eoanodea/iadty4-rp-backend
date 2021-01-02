@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 3:34:12 pm
+ * Last Modified: Saturday, 2nd January 2021 2:08:30 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -15,10 +15,12 @@
 import {
   Collection,
   Entity,
+  Enum,
   ManyToOne,
   OneToMany,
   Property,
 } from "@mikro-orm/core";
+import { LessonType } from "contracts/validators/enums/lessonType.enum";
 
 import { Field, ObjectType } from "type-graphql";
 
@@ -36,9 +38,9 @@ export class Lesson extends Base<Lesson> {
   @Property()
   public level: number;
 
-  @Field()
-  @Property()
-  public answer: string;
+  @Field(() => LessonType)
+  @Enum(() => LessonType)
+  public type: LessonType;
 
   @Field(() => User)
   @ManyToOne(() => User, { onDelete: "restrict" })

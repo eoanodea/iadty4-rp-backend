@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 31st December 2020 5:10:04 pm
+ * Last Modified: Saturday, 2nd January 2021 2:07:03 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -49,9 +49,10 @@ import {
 /**
  * Middleware modules
  */
-import { buildErrObj, ErrorInterceptor } from "middleware/errors";
+import { ErrorInterceptor } from "middleware/errors";
 import { verifyToken } from "middleware/jwt";
 import { QuestionType } from "contracts/validators/enums/questionType.enum";
+import { LessonType } from "contracts/validators/enums/lessonType.enum";
 
 /**
  * Registering Question Type Enum
@@ -59,6 +60,14 @@ import { QuestionType } from "contracts/validators/enums/questionType.enum";
 registerEnumType(QuestionType, {
   name: "QuestionType",
   description: "Type of the question",
+});
+
+/**
+ * Register Lesson Type Enum
+ */
+registerEnumType(LessonType, {
+  name: "LessonType",
+  description: "Type of lesson",
 });
 
 export default class Application {
