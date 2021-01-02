@@ -6,13 +6,14 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 4:40:16 pm
+ * Last Modified: Saturday, 2nd January 2021 2:47:41 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { LessonValidator } from "contracts/validators";
+import { LessonType } from "contracts/validators/enums/lessonType.enum";
 import { Lesson } from "entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
@@ -23,9 +24,12 @@ export class LessonResolver {
   @Query(() => [Lesson])
   public async getLessons(
     @Ctx() ctx: MyContext,
-    @Info() info: GraphQLResolveInfo
+    @Info() info: GraphQLResolveInfo,
+    @Arg("type", { nullable: true }) type?: LessonType
   ): Promise<Lesson[]> {
-    return ctx.em.getRepository(Lesson).findAll({});
+    const filter = type ? { type: type } : {};
+
+    return ctx.em.getRepository(Lesson).find(filter);
   }
 
   @Query(() => Lesson, { nullable: true })

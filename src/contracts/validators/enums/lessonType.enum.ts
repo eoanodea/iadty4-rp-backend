@@ -6,13 +6,13 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 2:06:30 pm
+ * Last Modified: Saturday, 2nd January 2021 2:49:10 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 export enum LessonType {
-  THEORY = "Music Theory",
-  IMPROV = "Improvisation",
+  THEORY = "THEORY",
+  IMPROV = "IMPROV",
 }

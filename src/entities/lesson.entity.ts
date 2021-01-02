@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 2:08:30 pm
+ * Last Modified: Saturday, 2nd January 2021 2:41:59 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -16,6 +16,7 @@ import {
   Collection,
   Entity,
   Enum,
+  Filter,
   ManyToOne,
   OneToMany,
   Property,
@@ -29,6 +30,18 @@ import { User, Base, Question } from "./";
 
 @ObjectType()
 @Entity()
+// @Filter({
+//   name: "type",
+//   cond: async (args, type) => {
+//     if (type === "read") {
+//       return {
+//         type: args.name,
+//       };
+//     }
+
+//     return {};
+//   },
+// })
 export class Lesson extends Base<Lesson> {
   @Field()
   @Property()
