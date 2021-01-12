@@ -6,13 +6,13 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 2:49:10 pm
+ * Last Modified: Monday, 11th January 2021 2:53:14 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-export enum LessonType {
+export enum ModuleType {
   THEORY = "THEORY",
   IMPROV = "IMPROV",
 }

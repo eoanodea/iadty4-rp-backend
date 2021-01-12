@@ -6,15 +6,14 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
+ * Last Modified: Tuesday, 12th January 2021 6:15:40 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { LessonValidator } from "../contracts/validators";
-import { LessonType } from "../contracts/validators/enums/lessonType.enum";
-import { Lesson } from "../entities";
+import { Lesson, Module } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
@@ -25,9 +24,9 @@ export class LessonResolver {
   public async getLessons(
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo,
-    @Arg("type", { nullable: true }) type?: LessonType
+    @Arg("module") moduleId: string
   ): Promise<Lesson[]> {
-    const filter = type ? { type } : {};
+    const filter = moduleId ? { module: moduleId } : {};
 
     return ctx.em.getRepository(Lesson).find(filter);
   }
@@ -38,16 +37,21 @@ export class LessonResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson | null> {
-    return ctx.em.getRepository(Lesson).findOne({ id });
+    return ctx.em.getRepository(Lesson).findOne({ id }, ["questions"]);
   }
 
   @Mutation(() => Lesson)
   public async addLesson(
     @Arg("input") input: LessonValidator,
+    @Arg("module") moduleId: string,
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson> {
     const lesson = new Lesson(input);
+    lesson.module = await ctx.em
+      .getRepository(Module)
+      .findOneOrFail({ id: moduleId });
+
     await ctx.em.persist(lesson).flush();
     return lesson;
   }

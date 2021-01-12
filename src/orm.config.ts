@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 3:07:58 pm
+ * Last Modified: Monday, 11th January 2021 3:12:05 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -17,11 +17,11 @@ import { MongoHighlighter } from "@mikro-orm/mongo-highlighter";
 
 import config from "../config";
 
-import { User, Lesson, Base, Question } from "./entities";
+import { User, Lesson, Base, Question, Module } from "./entities";
 
 const options: Options = {
   type: "mongo",
-  entities: [User, Lesson, Question, Base],
+  entities: [User, Module, Lesson, Question, Base],
   dbName: "music-app",
   clientUrl: config.mongoUri,
   highlighter: new MongoHighlighter(),

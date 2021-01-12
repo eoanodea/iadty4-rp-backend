@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description: An Entity which represents a user within the DB
- * Last Modified: Tuesday, 29th December 2020 3:12:00 pm
+ * Last Modified: Monday, 11th January 2021 3:07:38 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -23,6 +23,7 @@ import {
 import { UserValidator } from "../contracts/validators";
 import { Field, ObjectType } from "type-graphql";
 import { Question, Base, Lesson } from "./";
+import { Module } from "./module.entity";
 
 @ObjectType()
 @Entity()
@@ -40,9 +41,9 @@ export class User extends Base<User> {
   @Property()
   password: string;
 
-  @Field(() => [Lesson])
-  @OneToMany(() => Lesson, (b: Lesson) => b.user, { cascade: [Cascade.ALL] })
-  public completedLessons = new Collection<Lesson>(this);
+  @Field(() => [Module])
+  @OneToMany(() => Module, (b: Module) => b.user, { cascade: [Cascade.ALL] })
+  public completedModules = new Collection<Module>(this);
 
   @Field(() => [Question])
   @OneToMany(() => Question, (b: Question) => b.user, {

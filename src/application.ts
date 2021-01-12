@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
+ * Last Modified: Monday, 11th January 2021 3:28:34 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -44,6 +44,7 @@ import {
   LessonResolver,
   AuthResolver,
   QuestionResolver,
+  ModuleResolver,
 } from "./resolvers";
 
 /**
@@ -56,10 +57,10 @@ import { verifyToken } from "./middleware/jwt";
  * Enum modules
  */
 import { QuestionType } from "./contracts/validators/enums/questionType.enum";
-import { LessonType } from "./contracts/validators/enums/lessonType.enum";
+import { ModuleType } from "./contracts/validators/enums/moduleType.enum";
 
 /**
- * Registering Question Type Enum
+ * Registering Module Type Enum
  */
 registerEnumType(QuestionType, {
   name: "QuestionType",
@@ -69,8 +70,8 @@ registerEnumType(QuestionType, {
 /**
  * Register Lesson Type Enum
  */
-registerEnumType(LessonType, {
-  name: "LessonType",
+registerEnumType(ModuleType, {
+  name: "ModuleType",
   description: "Type of lesson",
 });
 
@@ -110,6 +111,7 @@ export default class Application {
           UserResolver,
           LessonResolver,
           QuestionResolver,
+          ModuleResolver,
         ],
         dateScalarMode: "isoDate",
         globalMiddlewares: [ErrorInterceptor],

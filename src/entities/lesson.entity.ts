@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:49:37 pm
+ * Last Modified: Tuesday, 12th January 2021 4:48:27 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -20,35 +20,27 @@ import {
   OneToMany,
   Property,
 } from "@mikro-orm/core";
-import { LessonType } from "../contracts/validators/enums/lessonType.enum";
 
 import { Field, ObjectType } from "type-graphql";
 
 import { LessonValidator } from "../contracts/validators";
-import { User, Base, Question } from "./";
+import { Base, Question } from "./";
+import { Module } from "./module.entity";
 
 @ObjectType()
 @Entity()
 export class Lesson extends Base<Lesson> {
-  @Field()
-  @Property()
-  public title: string;
+  @Field(() => Module)
+  @ManyToOne(() => Module, { onDelete: "cascade" })
+  public module: Module;
 
   @Field()
   @Property()
   public level: number;
 
-  @Field(() => LessonType)
-  @Enum(() => LessonType)
-  public type: LessonType;
-
-  @Field(() => User)
-  @ManyToOne(() => User, { onDelete: "restrict" })
-  public user?: User;
-
   @Field(() => [Question])
   @OneToMany(() => Question, (b: Question) => b.lesson)
-  public questions = new Collection<Question>(this);
+  public questions? = new Collection<Question>(this);
 
   constructor(body: LessonValidator) {
     super(body);

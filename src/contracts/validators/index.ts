@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 3:06:54 pm
+ * Last Modified: Monday, 11th January 2021 3:01:41 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -16,3 +16,4 @@ export * from "./user.validator";
 export * from "./lesson.validator";
 export * from "./auth.validator";
 export * from "./question.validator";
+export * from "./module.validator";

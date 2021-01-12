@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:58:10 pm
+ * Last Modified: Tuesday, 12th January 2021 6:24:30 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -33,11 +33,7 @@ export class AuthResolver {
 
       return user;
     } catch (err) {
-      throw new ClientSafeError(
-        err || "Could not authenticate",
-        403,
-        "AUTH_ERROR"
-      );
+      throw new ClientSafeError("Not Authenticated", 403, "AUTH_ERROR");
     }
   }
 
