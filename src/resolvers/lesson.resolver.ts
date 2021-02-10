@@ -6,17 +6,19 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 12th January 2021 6:15:40 pm
+ * Last Modified: Wednesday, 13th January 2021 2:59:01 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { LessonValidator } from "../contracts/validators";
-import { Lesson, Module } from "../entities";
+import { Lesson, Module, User } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
+import { hasAuthorization } from "middleware/auth";
+import { ClientSafeError } from "middleware/errors";
 
 @Resolver(() => Lesson)
 export class LessonResolver {
@@ -77,5 +79,25 @@ export class LessonResolver {
     const lesson = await ctx.em.getRepository(Lesson).findOneOrFail({ id });
     await ctx.em.getRepository(Lesson).remove(lesson).flush();
     return true;
+  }
+
+  @Mutation(() => Lesson)
+  public async completeLesson(
+    @Arg("lessonId") id: string,
+    @Arg("userId") userId: string,
+    @Ctx() ctx: MyContext,
+    @Info() info: GraphQLResolveInfo
+  ): Promise<Lesson> {
+    if (hasAuthorization(ctx, userId)) {
+      const lesson = await ctx.em.getRepository(Lesson).findOneOrFail({ id });
+      const user = await ctx.em
+        .getRepository(User)
+        .findOneOrFail({ id: userId });
+      user.completedLessons.add(lesson);
+
+      await ctx.em.persist(user).flush();
+      return lesson;
+    }
+    throw new ClientSafeError("Not Authorized", 401, "AUTH_ERROR");
   }
 }

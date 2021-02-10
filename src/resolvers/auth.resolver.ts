@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 12th January 2021 6:24:30 pm
+ * Last Modified: Thursday, 14th January 2021 3:01:24 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -29,7 +29,13 @@ export class AuthResolver {
     @Info() info: GraphQLResolveInfo
   ): Promise<User> {
     try {
-      const user = await ctx.em.findOneOrFail(User, { id: ctx.auth._id });
+      const user = await ctx.em
+        .getRepository(User)
+        .findOneOrFail({ id: ctx.auth._id }, [
+          "completedModules",
+          "completedLessons",
+          "incorrectQuestions",
+        ]);
 
       return user;
     } catch (err) {

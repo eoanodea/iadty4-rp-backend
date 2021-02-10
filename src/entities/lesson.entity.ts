@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 12th January 2021 4:48:27 pm
+ * Last Modified: Wednesday, 13th January 2021 2:47:40 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -24,7 +24,7 @@ import {
 import { Field, ObjectType } from "type-graphql";
 
 import { LessonValidator } from "../contracts/validators";
-import { Base, Question } from "./";
+import { Base, Question, User } from "./";
 import { Module } from "./module.entity";
 
 @ObjectType()
@@ -37,6 +37,10 @@ export class Lesson extends Base<Lesson> {
   @Field()
   @Property()
   public level: number;
+
+  @Field(() => User)
+  @ManyToOne(() => User, { onDelete: "restrict" })
+  public user?: User;
 
   @Field(() => [Question])
   @OneToMany(() => Question, (b: Question) => b.lesson)

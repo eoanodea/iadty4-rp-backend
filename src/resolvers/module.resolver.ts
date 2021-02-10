@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 12th January 2021 4:59:42 pm
+ * Last Modified: Wednesday, 10th February 2021 2:59:19 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -18,6 +18,7 @@ import { Module } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
+import { FindOptions, QueryOrder } from "@mikro-orm/core";
 
 @Resolver(() => Module)
 export class ModuleResolver {
@@ -29,7 +30,9 @@ export class ModuleResolver {
   ): Promise<Module[]> {
     const filter = type ? { type } : {};
 
-    return ctx.em.getRepository(Module).find(filter);
+    return ctx.em
+      .getRepository(Module)
+      .find(filter, { orderBy: { level: QueryOrder.ASC } });
   }
 
   @Query(() => Module, { nullable: true })

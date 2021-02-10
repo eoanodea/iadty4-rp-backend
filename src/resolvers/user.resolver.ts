@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:56:23 pm
+ * Last Modified: Wednesday, 13th January 2021 3:27:51 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -37,7 +37,9 @@ export class UserResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<User | null> {
-    return ctx.em.getRepository(User).findOne({ id });
+    return ctx.em
+      .getRepository(User)
+      .findOne({ id }, ["completedLessons", "completedModules"]);
   }
 
   @Mutation(() => User)
