@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Wednesday, 10th February 2021 2:59:19 pm
+ * Last Modified: Wednesday, 10th February 2021 3:03:07 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -32,7 +32,10 @@ export class ModuleResolver {
 
     return ctx.em
       .getRepository(Module)
-      .find(filter, { orderBy: { level: QueryOrder.ASC } });
+      .find(filter, {
+        orderBy: { level: QueryOrder.ASC },
+        populate: ["lessons"],
+      });
   }
 
   @Query(() => Module, { nullable: true })
