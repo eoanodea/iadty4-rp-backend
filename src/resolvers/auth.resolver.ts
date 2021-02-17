@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 14th January 2021 3:01:24 pm
+ * Last Modified: Wednesday, 17th February 2021 4:47:36 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -47,14 +47,14 @@ export class AuthResolver {
   async login(
     @Arg("input") input: AuthValidator,
     @Ctx() ctx: MyContext
-  ): Promise<{ token: string; user: User }> {
+  ): Promise<{ token: string; expiration: number; user: User }> {
     try {
       const user = await ctx.em.findOneOrFail(User, { email: input.email });
 
       if (await verify(user.password, input.password)) {
-        const token = generateToken(user.id);
+        const { token, expiration } = generateToken(user.id);
 
-        return { token, user };
+        return { token, expiration, user };
       } else throw new ClientSafeError("Incorrect Password", 403, "AUTH_ERROR");
     } catch (err) {
       throw new ClientSafeError(

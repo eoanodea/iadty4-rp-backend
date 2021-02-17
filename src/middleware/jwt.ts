@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 2:22:44 pm
+ * Last Modified: Wednesday, 17th February 2021 5:21:25 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -38,13 +38,19 @@ export const verifyToken = (token: string) => {
  * @param {String} id
  */
 export const generateToken = (id: string) => {
-  return jwt.sign(
-    {
-      _id: id,
-    },
-    config.jwtSecret,
-    {
-      expiresIn: "1h",
-    }
-  );
+  const date = new Date();
+  const expiration = date.setDate(date.getDate() + 7);
+  console.log(expiration, typeof expiration);
+  return {
+    token: jwt.sign(
+      {
+        _id: id,
+      },
+      config.jwtSecret,
+      {
+        expiresIn: "7d",
+      }
+    ),
+    expiration,
+  };
 };

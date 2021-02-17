@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:51:55 pm
+ * Last Modified: Wednesday, 17th February 2021 4:49:10 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -21,4 +21,6 @@ export class LoggedIn {
   user: User;
   @Field()
   token: string;
+  @Field()
+  expiration: number;
 }
