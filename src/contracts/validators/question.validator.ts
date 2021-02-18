@@ -6,31 +6,62 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 4:32:28 pm
+ * Last Modified: Thursday, 18th February 2021 10:23:36 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { IsBoolean, IsEnum, IsString } from "class-validator";
+import {
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsOptional,
+  IsString,
+  ValidateIf,
+} from "class-validator";
 import { Field, InputType } from "type-graphql";
 import { QuestionType } from "./enums/questionType.enum";
 
 @InputType()
 export class QuestionValidator {
-  @Field()
+  @Field({ defaultValue: false })
   @IsBoolean()
-  public requiresPiano: boolean;
+  public requiresPiano: boolean = false;
 
   @Field()
   @IsString()
   public text: string;
 
-  @Field()
+  @Field({ nullable: true })
+  @IsOptional()
   @IsString()
-  public answer: string;
+  public image?: string;
 
-  @Field(() => QuestionType)
+  @Field(() => [String], { nullable: true })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  public options: string[];
+
+  @Field()
   @IsEnum(QuestionType)
   public type: QuestionType;
+
+  @Field({ nullable: true })
+  @ValidateIf((o) => o.type === QuestionType.TEXT)
+  @IsString()
+  public answer?: string;
+
+  @Field(() => [String], { nullable: true })
+  @ValidateIf((o) => o.type === QuestionType.MULTIPLE_CHOICE)
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  public answerArr?: string[];
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  public answerHint?: string;
 }

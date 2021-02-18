@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 11th February 2021 5:08:58 pm
+ * Last Modified: Wednesday, 17th February 2021 5:43:54 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -29,8 +29,15 @@ export class LessonResolver {
     @Arg("module") moduleId: string
   ): Promise<Lesson[]> {
     const filter = moduleId ? { module: moduleId } : {};
-
     return ctx.em.getRepository(Lesson).find(filter);
+    // if(ctx.auth && ctx.auth._id) {
+    //   const user = await ctx.em.getRepository(User).findOneOrFail(ctx.auth._id, ['completedLessons'])
+    //   user.completedLessons.forEach(lesson => {
+
+    //   })
+    // }
+
+    // return lessons;
   }
 
   @Query(() => Lesson, { nullable: true })

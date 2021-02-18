@@ -6,15 +6,17 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 3:04:12 pm
+ * Last Modified: Thursday, 18th February 2021 10:16:38 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 export enum QuestionType {
-  SCALE = "Scale",
-  CHORD = "Chord",
-  SIGNT_READING = "Sight Reading",
-  CHORD_PROGRESSION = "Chord Progression",
+  MULTIPLE_CHOICE = "Multiple Choice",
+  TEXT = "Text",
+  // SCALE = "Scale",
+  // CHORD = "Chord",
+  // SIGNT_READING = "Sight Reading",
+  // CHORD_PROGRESSION = "Chord Progression",
 }

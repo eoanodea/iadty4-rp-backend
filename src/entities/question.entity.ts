@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Saturday, 2nd January 2021 4:54:20 pm
+ * Last Modified: Thursday, 18th February 2021 10:23:36 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -19,7 +19,7 @@ import { Field, ObjectType } from "type-graphql";
 import { QuestionValidator } from "../contracts/validators";
 import { Lesson, Base, User } from "./";
 
-@ObjectType()
+@ObjectType({ description: "Represents a question within the database" })
 @Entity()
 export class Question extends Base<Question> {
   @Field()
@@ -30,13 +30,29 @@ export class Question extends Base<Question> {
   @Property()
   public text: string;
 
-  @Field()
-  @Property()
-  public answer: string;
-
   @Field(() => QuestionType)
   @Enum(() => QuestionType)
   public type: QuestionType;
+
+  @Field(() => [String], { nullable: true })
+  @Property()
+  public options: string[];
+
+  @Field({ nullable: true })
+  @Property()
+  public image?: string;
+
+  @Field({ nullable: true })
+  @Property()
+  public answer?: string;
+
+  @Field(() => [String], { nullable: true })
+  @Property()
+  public answerArr?: string[] | null;
+
+  @Field({ nullable: true })
+  @Property()
+  public answerHint?: string;
 
   @Field(() => Lesson)
   @ManyToOne(() => Lesson, { onDelete: "cascade" })

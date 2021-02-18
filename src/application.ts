@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Monday, 11th January 2021 3:28:34 pm
+ * Last Modified: Thursday, 18th February 2021 10:58:28 am
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -17,6 +17,9 @@
  */
 import express from "express";
 import "express-async-errors";
+
+import path from "path";
+import fs from "fs";
 
 /**
  * Mikro ORM dependencies and config
@@ -101,6 +104,10 @@ export default class Application {
     if (process.env.NODE_ENV !== "production") {
       this.host.get("/graphql", expressPlayground({ endpoint: "/graphql" }));
     }
+
+    this.host.use("/images/:name", (req, res) => {
+      res.sendFile(__dirname + "/images/" + req.params.name);
+    });
 
     this.host.use(cors());
 
