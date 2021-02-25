@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Wednesday, 13th January 2021 3:27:51 pm
+ * Last Modified: Thursday, 25th February 2021 1:51:22 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -16,8 +16,8 @@ import { hash } from "argon2";
 import { UserValidator } from "../contracts/validators";
 import { User } from "../entities/user.entity";
 import { GraphQLResolveInfo } from "graphql";
-import { hasAuthorization } from "../middleware/auth";
-import { ClientSafeError } from "../middleware/errors";
+import { hasAuthorization } from "../middleware/auth.middleware";
+import { ClientSafeError } from "../middleware/errors.middleware";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
 

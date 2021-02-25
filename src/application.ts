@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 25th February 2021 1:01:09 pm
+ * Last Modified: Thursday, 25th February 2021 1:51:28 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -48,8 +48,8 @@ import {
 /**
  * Middleware modules
  */
-import { ErrorInterceptor } from "./middleware/errors";
-import { verifyToken } from "./middleware/jwt";
+import { ErrorInterceptor } from "./middleware/errors.middleware";
+import { verifyToken } from "./middleware/";
 
 /**
  * Enum modules

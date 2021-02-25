@@ -6,13 +6,13 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Tuesday, 29th December 2020 2:47:17 pm
+ * Last Modified: Thursday, 25th February 2021 1:51:22 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { MyContext } from "./../utils/interfaces/context.interface";
+import { MyContext } from "../utils/interfaces/context.interface";
 
 /**
  * Checks if a user is authenticated, and if they are the user
