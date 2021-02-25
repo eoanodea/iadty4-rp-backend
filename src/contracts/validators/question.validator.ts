@@ -6,12 +6,13 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 18th February 2021 10:23:36 am
+ * Last Modified: Wednesday, 24th February 2021 4:50:10 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
+import { Type } from "@mikro-orm/core";
 import {
   IsArray,
   IsBoolean,
@@ -20,8 +21,10 @@ import {
   IsString,
   ValidateIf,
 } from "class-validator";
+import { QuestionText } from "entities";
 import { Field, InputType } from "type-graphql";
 import { QuestionType } from "./enums/questionType.enum";
+import { QuestionTextValidator } from "./questionText.validator";
 
 @InputType()
 export class QuestionValidator {
@@ -29,9 +32,10 @@ export class QuestionValidator {
   @IsBoolean()
   public requiresPiano: boolean = false;
 
-  @Field()
-  @IsString()
-  public text: string;
+  @Field(() => [QuestionTextValidator])
+  @IsArray()
+  // @Type(() => QuestionTextValidator)
+  public text: QuestionTextValidator[];
 
   @Field({ nullable: true })
   @IsOptional()

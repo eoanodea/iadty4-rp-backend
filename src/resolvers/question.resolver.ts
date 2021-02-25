@@ -6,17 +6,18 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 18th February 2021 10:58:33 am
+ * Last Modified: Thursday, 25th February 2021 12:48:12 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 import { QuestionValidator } from "../contracts/validators";
-import { Lesson, Question } from "../entities";
+import { Lesson, Note, Question, QuestionText } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
+import { ClientSafeError } from "middleware/errors";
 
 @Resolver(() => Question)
 export class QuestionResolver {
@@ -35,7 +36,7 @@ export class QuestionResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Question | null> {
-    return ctx.em.getRepository(Question).findOne({ id });
+    return ctx.em.getRepository(Question).findOne({ id }, ["text"]);
   }
 
   @Mutation(() => Question)
@@ -46,10 +47,40 @@ export class QuestionResolver {
     @Info() info: GraphQLResolveInfo
   ): Promise<Question> {
     const question = new Question(input);
-    question.lesson = await ctx.em.getRepository(Lesson).findOneOrFail({ id });
 
-    await ctx.em.persist(question).flush();
-    return question;
+    try {
+      question.lesson = await ctx.em
+        .getRepository(Lesson)
+        .findOneOrFail({ id });
+
+      ctx.em.persist(question);
+
+      if (input.text.length > 0) {
+        for (let text of input.text) {
+          const newQuestionText = new QuestionText(text);
+
+          if (text.note) {
+            const note = await ctx.em
+              .getRepository(Note)
+              .findOneOrFail(text.note);
+            newQuestionText.note = note;
+          }
+          newQuestionText.question = question;
+          ctx.em.persist(newQuestionText);
+        }
+      }
+
+      await ctx.em.flush();
+
+      return question;
+    } catch (err) {
+      console.log("Error Adding Question", err);
+      throw new ClientSafeError(
+        "Could not add question",
+        500,
+        "INTERNAL_SERVER_ERR"
+      );
+    }
   }
 
   @Mutation(() => Question)

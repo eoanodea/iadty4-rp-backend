@@ -6,19 +6,20 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Wednesday, 10th February 2021 3:03:07 pm
+ * Last Modified: Thursday, 25th February 2021 12:59:36 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
+import { GraphQLResolveInfo } from "graphql";
+import { QueryOrder } from "@mikro-orm/core";
+import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
+
 import { ModuleValidator } from "../contracts/validators";
 import { ModuleType } from "../contracts/validators/enums/moduleType.enum";
 import { Module } from "../entities";
-import { GraphQLResolveInfo } from "graphql";
-import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
-import { FindOptions, QueryOrder } from "@mikro-orm/core";
 
 @Resolver(() => Module)
 export class ModuleResolver {
@@ -30,12 +31,10 @@ export class ModuleResolver {
   ): Promise<Module[]> {
     const filter = type ? { type } : {};
 
-    return ctx.em
-      .getRepository(Module)
-      .find(filter, {
-        orderBy: { level: QueryOrder.ASC },
-        populate: ["lessons"],
-      });
+    return ctx.em.getRepository(Module).find(filter, {
+      orderBy: { level: QueryOrder.ASC },
+      populate: ["lessons"],
+    });
   }
 
   @Query(() => Module, { nullable: true })

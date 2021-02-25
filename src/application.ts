@@ -6,28 +6,25 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 18th February 2021 10:58:28 am
+ * Last Modified: Thursday, 25th February 2021 1:01:09 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
 /**
- * Express Imports
+ * Express & Server dependencies
  */
 import express from "express";
 import "express-async-errors";
-
-import path from "path";
-import fs from "fs";
+import { Server } from "http";
+import cors from "cors";
 
 /**
  * Mikro ORM dependencies and config
  */
 import { Connection, IDatabaseDriver, MikroORM } from "@mikro-orm/core";
 import ormConfig from "./orm.config";
-
-import cors from "cors";
 
 /**
  * GraphQL and Apollo Dependencies
@@ -36,8 +33,6 @@ import { GraphQLSchema } from "graphql";
 import expressPlayground from "graphql-playground-middleware-express";
 import { buildSchema, registerEnumType } from "type-graphql";
 import { ApolloServer } from "apollo-server-express";
-
-import { Server } from "http";
 
 /**
  * Resolver modules
@@ -106,7 +101,7 @@ export default class Application {
     }
 
     this.host.use("/images/:name", (req, res) => {
-      res.sendFile(__dirname + "/images/" + req.params.name);
+      res.sendFile(__dirname + "/assets/images/" + req.params.name);
     });
 
     this.host.use(cors());
@@ -162,10 +157,16 @@ export default class Application {
       const url = process.env.CLIENT_ORIGIN;
 
       this.server = this.host.listen(port, () => {
+        console.log(
+          `[Easy Piano V${process.env.npm_package_version}] - Starting server in ${process.env.NODE_ENV}`
+        );
         console.log(`🚀
-        Server running at  \x1b[36m${url}:${port}\x1b[0m
-        GraphQL playground running at \x1b[35m${url}:${port}/graphql\x1b[0m
+          Server running at  \x1b[36m${url}:${port}\x1b[0m
         `);
+        if (process.env.NODE_ENV !== "production")
+          console.log(
+            `GraphQL playground running at \x1b[35m${url}:${port}/graphql\x1b[0m`
+          );
       });
     } catch (error) {
       console.error("📌 Could not start server", error);

@@ -6,19 +6,18 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Wednesday, 17th February 2021 5:43:54 pm
+ * Last Modified: Thursday, 25th February 2021 12:58:47 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
+import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
+import { GraphQLResolveInfo } from "graphql";
 
 import { LessonValidator } from "../contracts/validators";
 import { Lesson, Module, User } from "../entities";
-import { GraphQLResolveInfo } from "graphql";
-import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
-import { hasAuthorization } from "middleware/auth";
-import { ClientSafeError } from "middleware/errors";
+import { hasAuthorization, ClientSafeError } from "middleware";
 
 @Resolver(() => Lesson)
 export class LessonResolver {

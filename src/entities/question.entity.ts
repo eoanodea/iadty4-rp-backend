@@ -6,18 +6,26 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 18th February 2021 10:23:36 am
+ * Last Modified: Thursday, 25th February 2021 12:56:55 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { Entity, Enum, ManyToOne, Property } from "@mikro-orm/core";
+import {
+  Cascade,
+  Entity,
+  Enum,
+  ManyToOne,
+  OneToMany,
+  Collection,
+  Property,
+} from "@mikro-orm/core";
 import { QuestionType } from "../contracts/validators/enums/questionType.enum";
 import { Field, ObjectType } from "type-graphql";
 
 import { QuestionValidator } from "../contracts/validators";
-import { Lesson, Base, User } from "./";
+import { Lesson, Base, User, QuestionText } from "./";
 
 @ObjectType({ description: "Represents a question within the database" })
 @Entity()
@@ -25,10 +33,6 @@ export class Question extends Base<Question> {
   @Field()
   @Property()
   public requiresPiano: boolean;
-
-  @Field()
-  @Property()
-  public text: string;
 
   @Field(() => QuestionType)
   @Enum(() => QuestionType)
@@ -53,6 +57,12 @@ export class Question extends Base<Question> {
   @Field({ nullable: true })
   @Property()
   public answerHint?: string;
+
+  @Field(() => [QuestionText])
+  @OneToMany(() => QuestionText, (b: QuestionText) => b.question, {
+    cascade: [Cascade.ALL],
+  })
+  public text = new Collection<QuestionText>(this);
 
   @Field(() => Lesson)
   @ManyToOne(() => Lesson, { onDelete: "cascade" })

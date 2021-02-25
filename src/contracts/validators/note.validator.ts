@@ -1,23 +1,24 @@
 /**
- * File: user.validator.ts
+ * File: auth.validator.ts
  * Project: music-theory-backend
  * Version 1.0.0
- * File Created: Wednesday, 23rd December 2020 6:19:21 pm
+ * File Created: Monday, 28th December 2020 12:25:25 pm
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 25th February 2021 1:00:38 pm
+ * Last Modified: Wednesday, 24th February 2021 3:44:25 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { IsNumber } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
 @InputType()
-export class LessonValidator {
+export class NoteValidator {
   @Field()
-  @IsNumber()
-  public level: number;
+  @IsString()
+  @IsNotEmpty()
+  public text: string;
 }

@@ -6,7 +6,7 @@
  * User: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description: An Entity which represents a user within the DB
- * Last Modified: Thursday, 14th January 2021 2:52:01 pm
+ * Last Modified: Thursday, 25th February 2021 12:56:55 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -20,10 +20,10 @@ import {
   Property,
   Unique,
 } from "@mikro-orm/core";
-import { UserValidator } from "../contracts/validators";
 import { Field, ObjectType } from "type-graphql";
-import { Question, Base, Lesson } from "./";
-import { Module } from "./module.entity";
+
+import { UserValidator } from "../contracts/validators";
+import { Question, Base, Lesson, Module } from "./";
 
 @ObjectType()
 @Entity()
