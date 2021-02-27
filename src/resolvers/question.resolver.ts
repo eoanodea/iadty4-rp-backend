@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 25th February 2021 1:51:22 pm
+ * Last Modified: Thursday, 25th February 2021 4:23:05 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -23,11 +23,11 @@ import { ClientSafeError } from "middleware/errors.middleware";
 export class QuestionResolver {
   @Query(() => [Question])
   public async getQuestions(
-    @Arg("lessonId") id: string,
+    @Arg("lesson") id: string,
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Question[]> {
-    return ctx.em.find(Question, { lesson: id });
+    return ctx.em.find(Question, { lesson: id }, ["text"]);
   }
 
   @Query(() => Question, { nullable: true })

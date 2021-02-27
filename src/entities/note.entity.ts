@@ -26,7 +26,7 @@ export class Note extends Base<Note> {
   @Property()
   public text: string;
 
-  @Field(() => QuestionText)
+  @Field(() => QuestionText, { nullable: true })
   @OneToOne(() => QuestionText, (b: QuestionText) => b.note, { nullable: true })
   public questionText: QuestionText;
 

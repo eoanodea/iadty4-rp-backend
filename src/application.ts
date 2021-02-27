@@ -6,7 +6,7 @@
  * Author: Eoan O'Dea (eoan@web-space.design)
  * -----
  * File Description:
- * Last Modified: Thursday, 25th February 2021 1:51:28 pm
+ * Last Modified: Thursday, 25th February 2021 5:25:44 pm
  * Modified By: Eoan O'Dea (eoan@web-space.design>)
  * -----
  * Copyright 2020 WebSpace, WebSpace
@@ -43,6 +43,8 @@ import {
   AuthResolver,
   QuestionResolver,
   ModuleResolver,
+  QuestionTextResolver,
+  NoteResolver,
 } from "./resolvers";
 
 /**
@@ -113,7 +115,9 @@ export default class Application {
           UserResolver,
           LessonResolver,
           QuestionResolver,
+          QuestionTextResolver,
           ModuleResolver,
+          NoteResolver,
         ],
         dateScalarMode: "isoDate",
         globalMiddlewares: [ErrorInterceptor],
