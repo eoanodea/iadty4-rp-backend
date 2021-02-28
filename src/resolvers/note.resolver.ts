@@ -19,6 +19,12 @@ import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
 import { ClientSafeError } from "middleware/errors.middleware";
 
+import marked from "marked";
+import createDomPurify from "dompurify";
+import { JSDOM } from "jsdom";
+
+const dompurify = createDomPurify(new JSDOM().window);
+
 @Resolver(() => Note)
 export class NoteResolver {
   @Query(() => [Note])
@@ -35,6 +41,7 @@ export class NoteResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Note | null> {
+    console.log("hello i am here", id);
     return ctx.em.getRepository(Note).findOne({ id });
   }
 
@@ -45,7 +52,10 @@ export class NoteResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Note> {
-    const note = new Note(input);
+    let note = new Note(input);
+    if (input.markdown) {
+      note.sanitizedHtml = dompurify.sanitize(marked(input.markdown));
+    }
 
     try {
       if (id !== "") {
@@ -74,6 +84,11 @@ export class NoteResolver {
     @Info() info: GraphQLResolveInfo
   ): Promise<Note> {
     const note = await ctx.em.getRepository(Note).findOneOrFail({ id });
+
+    if (input.markdown) {
+      input.sanitizedHtml = dompurify.sanitize(marked(input.markdown));
+    }
+
     note.assign(input);
     await ctx.em.persist(note).flush();
     return note;

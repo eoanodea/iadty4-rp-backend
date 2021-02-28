@@ -24,7 +24,15 @@ import { QuestionText } from "./questionText.entity";
 export class Note extends Base<Note> {
   @Field()
   @Property()
-  public text: string;
+  public title: string;
+
+  @Field()
+  @Property()
+  public markdown: string;
+
+  @Field()
+  @Property()
+  public sanitizedHtml: string;
 
   @Field(() => QuestionText, { nullable: true })
   @OneToOne(() => QuestionText, (b: QuestionText) => b.note, { nullable: true })

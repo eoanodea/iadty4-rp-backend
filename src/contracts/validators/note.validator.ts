@@ -12,7 +12,7 @@
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
 @InputType()
@@ -20,5 +20,14 @@ export class NoteValidator {
   @Field()
   @IsString()
   @IsNotEmpty()
-  public text: string;
+  public title: string;
+
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  public markdown: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  public sanitizedHtml: string;
 }
