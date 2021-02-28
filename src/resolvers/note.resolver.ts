@@ -41,7 +41,6 @@ export class NoteResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Note | null> {
-    console.log("hello i am here", id);
     return ctx.em.getRepository(Note).findOne({ id });
   }
 
