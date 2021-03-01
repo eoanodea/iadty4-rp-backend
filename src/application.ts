@@ -102,6 +102,8 @@ export default class Application {
       this.host.get("/graphql", expressPlayground({ endpoint: "/graphql" }));
     }
 
+    this.host.use(express.static("assets"));
+
     this.host.use("/images/:name", (req, res) => {
       res.sendFile(__dirname + "/assets/images/" + req.params.name);
     });
