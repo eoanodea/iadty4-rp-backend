@@ -56,7 +56,7 @@ export class QuestionResolver {
       ctx.em.persist(question);
 
       if (input.text.length > 0) {
-        for (let text of input.text) {
+        for (const text of input.text) {
           const newQuestionText = new QuestionText(text);
 
           if (text.note) {

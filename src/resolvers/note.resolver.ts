@@ -51,7 +51,7 @@ export class NoteResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Note> {
-    let note = new Note(input);
+    const note = new Note(input);
     if (input.markdown) {
       note.sanitizedHtml = dompurify.sanitize(marked(input.markdown));
     }
