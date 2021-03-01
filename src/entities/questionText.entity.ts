@@ -16,7 +16,7 @@ import { Entity, ManyToOne, OneToOne, Property } from "@mikro-orm/core";
 import { Field, ObjectType } from "type-graphql";
 
 import { Base, Note, Question } from "./";
-import { QuestionTextValidator } from "contracts/validators/questionText.validator";
+import { QuestionTextValidator } from "contracts/validators";
 
 @ObjectType()
 @Entity()
