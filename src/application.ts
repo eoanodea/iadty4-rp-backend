@@ -18,7 +18,10 @@
 import express from "express";
 import "express-async-errors";
 import { Server } from "http";
+
 import cors from "cors";
+import path from "path";
+import fs from "fs";
 
 /**
  * Mikro ORM dependencies and config
@@ -58,6 +61,8 @@ import { verifyToken } from "./middleware/";
  */
 import { QuestionType } from "./contracts/validators/enums/questionType.enum";
 import { ModuleType } from "./contracts/validators/enums/moduleType.enum";
+
+const CURRENT_WORKING_DIR = process.cwd();
 
 /**
  * Registering Module Type Enum
@@ -102,10 +107,24 @@ export default class Application {
       this.host.get("/graphql", expressPlayground({ endpoint: "/graphql" }));
     }
 
-    this.host.use(express.static("assets"));
+    this.host.use(
+      "/assets",
+      express.static(path.join(CURRENT_WORKING_DIR, "/assets"))
+    );
 
     this.host.use("/images/:name", (req, res) => {
-      res.sendFile(__dirname + "/assets/images/" + req.params.name);
+      const filePath = path.join(
+        CURRENT_WORKING_DIR,
+        "/assets/images/" + req.params.name
+      );
+
+      if (fs.existsSync(filePath)) {
+        return res.sendFile(filePath);
+      }
+
+      return res.sendFile(
+        path.join(CURRENT_WORKING_DIR, "/assets/images/not-found.png")
+      );
     });
 
     this.host.use(cors());
