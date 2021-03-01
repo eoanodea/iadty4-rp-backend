@@ -16,7 +16,7 @@ import { Entity, OneToMany, OneToOne, Property } from "@mikro-orm/core";
 import { Field, ObjectType } from "type-graphql";
 
 import { Base } from "./";
-import { NoteValidator } from "contracts/validators/note.validator";
+import { NoteValidator } from "../contracts/validators/note.validator";
 import { QuestionText } from "./questionText.entity";
 
 @ObjectType({ description: "Represents a note within the database" })
