@@ -17,7 +17,7 @@ import { Lesson, Note, Question, QuestionText } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
-import { ClientSafeError } from "middleware/errors.middleware";
+import { ClientSafeError } from "../middleware/errors.middleware";
 
 @Resolver(() => Question)
 export class QuestionResolver {

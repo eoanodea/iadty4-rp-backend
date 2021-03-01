@@ -17,7 +17,7 @@ import { GraphQLResolveInfo } from "graphql";
 import { LessonValidator } from "../contracts/validators";
 import { Lesson, Module, User } from "../entities";
 import { MyContext } from "../utils/interfaces/context.interface";
-import { hasAuthorization, ClientSafeError } from "middleware";
+import { hasAuthorization, ClientSafeError } from "../middleware";
 
 @Resolver(() => Lesson)
 export class LessonResolver {
