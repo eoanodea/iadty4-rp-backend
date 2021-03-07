@@ -35,20 +35,3 @@ export class UserValidator {
   })
   password: string;
 }
-
-// @InputType()
-// export class UpdateUserValidator {
-//   @Field()
-//   @IsString()
-//   public name: string;
-
-//   @Field()
-//   @IsEmail()
-//   public email: string;
-
-//   @IsString()
-//   @MinLength(6, {
-//     message: "Password must be at least 6 characters",
-//   })
-//   public password: string;
-// }

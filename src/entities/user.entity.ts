@@ -41,6 +41,22 @@ export class User extends Base<User> {
   @Property()
   password: string;
 
+  @Field()
+  @Property()
+  public streak: number = 0;
+
+  @Field()
+  @Property()
+  public level: number = 0;
+
+  @Field()
+  @Property()
+  public resetPasswordToken: string;
+
+  @Field()
+  @Property()
+  public resetPasswordExpires: Date;
+
   @Field(() => [Module])
   @OneToMany(() => Module, (b: Module) => b.user, { cascade: [Cascade.ALL] })
   public completedModules = new Collection<Module>(this);
