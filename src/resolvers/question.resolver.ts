@@ -18,6 +18,7 @@ import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
 import { ClientSafeError } from "../middleware/errors.middleware";
+import { QueryOrder } from "@mikro-orm/core";
 
 @Resolver(() => Question)
 export class QuestionResolver {

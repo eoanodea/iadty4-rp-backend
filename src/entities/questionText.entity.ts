@@ -23,6 +23,10 @@ import { QuestionTextValidator } from "../contracts/validators";
 export class QuestionText extends Base<QuestionText> {
   @Field()
   @Property()
+  public order: number;
+
+  @Field()
+  @Property()
   public text: string;
 
   @Field(() => Note, { nullable: true })

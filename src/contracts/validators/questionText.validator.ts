@@ -13,12 +13,19 @@
  */
 
 import { ObjectId } from "@mikro-orm/mongodb";
-import { IsMongoId, IsOptional, IsString } from "class-validator";
+import { IsMongoId, IsNumber, IsOptional, IsString } from "class-validator";
 import { Note, Question } from "entities";
 import { Field, InputType } from "type-graphql";
 
 @InputType({ description: "Validator for QuestionText" })
 export class QuestionTextValidator {
+  @Field({
+    description:
+      "The order of where the question text will appear (starting at 0)",
+  })
+  @IsNumber()
+  public order: number;
+
   @Field({ description: "The text of the question text" })
   @IsString()
   public text: string;
