@@ -127,7 +127,11 @@ export default class Application {
       );
     });
 
-    this.host.use(cors());
+    const corsOptions = {
+      origin: "*",
+    };
+
+    this.host.use(cors(corsOptions));
 
     try {
       const schema: GraphQLSchema = await buildSchema({

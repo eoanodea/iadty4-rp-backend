@@ -39,7 +39,11 @@ export class UserResolver {
   ): Promise<User | null> {
     return ctx.em
       .getRepository(User)
-      .findOne({ id }, ["completedLessons", "completedModules"]);
+      .findOne({ id }, [
+        "completedLessons",
+        "completedModules",
+        "incorrectQuestions",
+      ]);
   }
 
   @Mutation(() => User)

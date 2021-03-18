@@ -17,6 +17,7 @@ import {
   IsArray,
   IsBoolean,
   IsEnum,
+  IsNumber,
   IsOptional,
   IsString,
   ValidateIf,
@@ -32,7 +33,8 @@ export class QuestionValidator {
   @IsBoolean()
   public requiresPiano: boolean = false;
 
-  @Field(() => [QuestionTextValidator])
+  @Field(() => [QuestionTextValidator], { nullable: true })
+  @IsOptional()
   @IsArray()
   // @Type(() => QuestionTextValidator)
   public text: QuestionTextValidator[];
@@ -51,6 +53,10 @@ export class QuestionValidator {
   @Field()
   @IsEnum(QuestionType)
   public type: QuestionType;
+
+  @Field()
+  @IsNumber()
+  public points?: number;
 
   @Field({ nullable: true })
   @ValidateIf((o) => o.type === QuestionType.TEXT)

@@ -47,6 +47,10 @@ export class User extends Base<User> {
 
   @Field()
   @Property()
+  public points: number = 0;
+
+  @Field()
+  @Property()
   public level: number = 0;
 
   @Field()

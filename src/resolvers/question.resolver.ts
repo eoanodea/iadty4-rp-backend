@@ -13,12 +13,13 @@
  */
 
 import { QuestionValidator } from "../contracts/validators";
-import { Lesson, Note, Question, QuestionText } from "../entities";
+import { Lesson, Note, Question, QuestionText, User } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
 import { ClientSafeError } from "../middleware/errors.middleware";
-import { QueryOrder } from "@mikro-orm/core";
+import { ObjectId } from "bson";
+import isEqual from "lodash.isequal";
 
 @Resolver(() => Question)
 export class QuestionResolver {
@@ -105,5 +106,41 @@ export class QuestionResolver {
     const question = await ctx.em.getRepository(Question).findOneOrFail({ id });
     await ctx.em.getRepository(Question).remove(question).flush();
     return true;
+  }
+
+  @Mutation(() => Number)
+  public async answerQuestion(
+    @Arg("id") id: string,
+    @Ctx() ctx: MyContext,
+    @Arg("answer", { nullable: true }) answer?: string,
+    @Arg("answerArr", (type) => [String], { nullable: true })
+    answerArr?: [String]
+  ): Promise<number> {
+    const user = await ctx.em
+      .getRepository(User)
+      .findOne({ _id: new ObjectId(ctx.auth._id) }, ["incorrectQuestions"]);
+
+    if (user) {
+      let isCorrect = false;
+      const question = await ctx.em
+        .getRepository(Question)
+        .findOneOrFail({ id });
+
+      if (
+        (answer && isEqual(question.answer, answer)) ||
+        (answerArr && isEqual(question.answerArr, answerArr.sort()))
+      ) {
+        user.points += question.points;
+        isCorrect = true;
+        user.incorrectQuestions.remove(question);
+      } else {
+        user.incorrectQuestions.add(question);
+      }
+
+      await ctx.em.persist(user).flush();
+
+      return isCorrect ? question.points : 0;
+    }
+    throw new ClientSafeError("Not Authorized", 401, "AUTH_ERROR");
   }
 }

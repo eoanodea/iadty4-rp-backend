@@ -46,6 +46,10 @@ export class Question extends Base<Question> {
   @Property()
   public image?: string;
 
+  @Field({ defaultValue: 15 })
+  @Property()
+  public points: number;
+
   @Field({ nullable: true })
   @Property()
   public answer?: string;
