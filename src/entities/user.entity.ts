@@ -17,13 +17,14 @@ import {
   Collection,
   Entity,
   OneToMany,
+  OneToOne,
   Property,
   Unique,
 } from "@mikro-orm/core";
 import { Field, ObjectType } from "type-graphql";
 
 import { UserValidator } from "../contracts/validators";
-import { Question, Base, Lesson, Module } from "./";
+import { Question, Base, Lesson, Module, Streak } from "./";
 
 @ObjectType()
 @Entity()
@@ -43,10 +44,6 @@ export class User extends Base<User> {
 
   @Field()
   @Property()
-  public streak: number = 0;
-
-  @Field()
-  @Property()
   public points: number = 0;
 
   @Field()
@@ -60,6 +57,10 @@ export class User extends Base<User> {
   @Field()
   @Property()
   public resetPasswordExpires: Date;
+
+  @Field(() => Streak)
+  @OneToOne({ entity: () => Streak })
+  public streak: Streak;
 
   @Field(() => [Module])
   @OneToMany(() => Module, (b: Module) => b.user, { cascade: [Cascade.ALL] })

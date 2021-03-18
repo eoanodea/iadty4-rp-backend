@@ -38,9 +38,4 @@ export class QuestionTextValidator {
   @IsString()
   @IsOptional()
   public note?: string;
-
-  // @Field(() => Question, { nullable: true })
-  // @IsOptional()
-  // // @IsString()
-  // public question?: Question;
 }

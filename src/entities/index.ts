@@ -20,3 +20,4 @@ export * from "./question.entity";
 export * from "./questionText.entity";
 export * from "./module.entity";
 export * from "./note.entity";
+export * from "./streak.entity";

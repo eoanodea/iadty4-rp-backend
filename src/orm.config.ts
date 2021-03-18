@@ -25,11 +25,12 @@ import {
   QuestionText,
   Module,
   Note,
+  Streak,
 } from "./entities";
 
 const options: Options = {
   type: "mongo",
-  entities: [User, Module, Lesson, Question, QuestionText, Note, Base],
+  entities: [User, Module, Lesson, Question, QuestionText, Note, Base, Streak],
   dbName: "music-app",
   clientUrl: config.mongoUri,
   highlighter: new MongoHighlighter(),
