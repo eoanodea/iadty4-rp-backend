@@ -100,10 +100,17 @@ export class LessonResolver {
       .findOne({ _id: new ObjectId(ctx.auth._id) }, ["streak"]);
 
     if (user) {
+      // Date 24 Object hours from now
       const date = new Date().getTime() - 24 * 60 * 60 * 1000;
+      const today = new Date();
 
       if (new Date(date) < user.streak.updatedAt) {
-        user.streak.number++;
+        if (
+          today.getDate() > user.streak.updatedAt.getDate() ||
+          user.streak.updatedAt.getDate() === user.streak.createdAt.getDate()
+        ) {
+          user.streak.number++;
+        }
       } else {
         user.streak.number = 0;
       }
