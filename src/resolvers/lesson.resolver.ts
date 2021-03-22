@@ -18,6 +18,7 @@ import { LessonValidator } from "../contracts/validators";
 import { Lesson, Module, User } from "../entities";
 import { MyContext } from "../utils/interfaces/context.interface";
 import { hasAuthorization, ClientSafeError } from "../middleware";
+import { ObjectId } from "@mikro-orm/mongodb";
 
 @Resolver(() => Lesson)
 export class LessonResolver {
@@ -90,16 +91,22 @@ export class LessonResolver {
   @Mutation(() => Lesson)
   public async completeLesson(
     @Arg("lessonId") id: string,
-    @Arg("userId") userId: string,
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson> {
-    if (hasAuthorization(ctx, userId)) {
-      const lesson = await ctx.em.getRepository(Lesson).findOneOrFail({ id });
-      const user = await ctx.em
-        .getRepository(User)
-        .findOneOrFail({ id: userId });
-      user.completedLessons.add(lesson);
+    const lesson = await ctx.em.getRepository(Lesson).findOneOrFail({ id });
+    const user = await ctx.em
+      .getRepository(User)
+      .findOne({ _id: new ObjectId(ctx.auth._id) }, ["streak"]);
+
+    if (user) {
+      const date = new Date().getTime() - 24 * 60 * 60 * 1000;
+
+      if (new Date(date) < user.streak.updatedAt) {
+        user.streak.number++;
+      } else {
+        user.streak.number = 0;
+      }
 
       await ctx.em.persist(user).flush();
       return lesson;

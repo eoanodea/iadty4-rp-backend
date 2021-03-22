@@ -114,7 +114,7 @@ export class QuestionResolver {
     @Ctx() ctx: MyContext,
     @Arg("answer", { nullable: true }) answer?: string,
     @Arg("answerArr", (type) => [String], { nullable: true })
-    answerArr?: [String]
+    answerArr?: string[]
   ): Promise<number> {
     const user = await ctx.em
       .getRepository(User)

@@ -22,11 +22,10 @@ import {
   Unique,
 } from "@mikro-orm/core";
 import { Field, ObjectType } from "type-graphql";
-
 import { UserValidator } from "../contracts/validators";
-import { Question, Base, Lesson, Module, Streak } from "./";
+import { Base, Lesson, Module, Question, Streak } from "./";
 
-@ObjectType()
+@ObjectType({ description: "Represents a user object" })
 @Entity()
 export class User extends Base<User> {
   @Field()

@@ -20,6 +20,7 @@ import { hasAuthorization } from "../middleware/auth.middleware";
 import { ClientSafeError } from "../middleware/errors.middleware";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
+import { Streak } from "entities";
 
 @Resolver(() => User)
 export class UserResolver {
@@ -53,6 +54,8 @@ export class UserResolver {
   ): Promise<User> {
     try {
       const user = new User(input);
+      user.streak = new Streak();
+
       const hashedPassword = await hash(input.password);
       user.password = hashedPassword;
 
