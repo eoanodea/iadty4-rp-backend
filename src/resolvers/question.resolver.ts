@@ -131,7 +131,9 @@ export class QuestionResolver {
 
       if (
         (answer && isEqual(question.answer, answer)) ||
-        (answerArr && isEqual(question.answerArr.sort(), answerArr.sort()))
+        (answerArr &&
+          answerArr.length > 0 &&
+          isEqual(question.answerArr.sort(), answerArr.sort()))
       ) {
         user.points += question.points;
         isCorrect = true;
