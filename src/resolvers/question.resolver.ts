@@ -116,6 +116,9 @@ export class QuestionResolver {
     @Arg("answerArr", (type) => [String], { nullable: true })
     answerArr?: string[]
   ): Promise<number> {
+    console.log("running answer question!");
+    console.log("answer: ", answer);
+    console.log("answerarr: ", answerArr);
     const user = await ctx.em
       .getRepository(User)
       .findOne({ _id: new ObjectId(ctx.auth._id) }, ["incorrectQuestions"]);
@@ -128,7 +131,7 @@ export class QuestionResolver {
 
       if (
         (answer && isEqual(question.answer, answer)) ||
-        (answerArr && isEqual(question.answerArr, answerArr.sort()))
+        (answerArr && isEqual(question.answerArr.sort(), answerArr.sort()))
       ) {
         user.points += question.points;
         isCorrect = true;
@@ -136,6 +139,7 @@ export class QuestionResolver {
       } else {
         user.incorrectQuestions.add(question);
       }
+      console.log("points: ", isCorrect ? question.points : 0);
 
       await ctx.em.persist(user).flush();
 

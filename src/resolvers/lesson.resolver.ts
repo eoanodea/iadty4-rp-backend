@@ -104,10 +104,13 @@ export class LessonResolver {
       const date = new Date().getTime() - 24 * 60 * 60 * 1000;
       const today = new Date();
 
+      console.log("today", today.getDate() === user.streak.createdAt.getDate());
+
       if (new Date(date) < user.streak.updatedAt) {
         if (
           today.getDate() > user.streak.updatedAt.getDate() ||
-          user.streak.updatedAt.getDate() === user.streak.createdAt.getDate()
+          (today.getDate() === user.streak.createdAt.getDate() &&
+            user.streak.number === 0)
         ) {
           user.streak.number++;
         }
