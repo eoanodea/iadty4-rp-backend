@@ -14,13 +14,12 @@
 
 import { hash } from "argon2";
 import { UserValidator } from "../contracts/validators";
-import { User } from "../entities/user.entity";
+import { User, Streak } from "../entities";
 import { GraphQLResolveInfo } from "graphql";
 import { hasAuthorization } from "../middleware/auth.middleware";
 import { ClientSafeError } from "../middleware/errors.middleware";
 import { Arg, Ctx, Info, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../utils/interfaces/context.interface";
-import { Streak } from "entities";
 
 @Resolver(() => User)
 export class UserResolver {
