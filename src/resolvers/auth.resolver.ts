@@ -55,7 +55,9 @@ export class AuthResolver {
         const { token, expiration } = generateToken(user.id);
 
         return { token, expiration, user };
-      } else throw new ClientSafeError("Incorrect Password", 403, "AUTH_ERROR");
+      }
+
+      throw new ClientSafeError("Incorrect Password", 403, "AUTH_ERROR");
     } catch (err) {
       throw new ClientSafeError(
         "Incorrect Email or Password",

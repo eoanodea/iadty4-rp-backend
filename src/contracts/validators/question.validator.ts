@@ -12,7 +12,6 @@
  * Copyright 2020 WebSpace, WebSpace
  */
 
-import { Type } from "@mikro-orm/core";
 import {
   IsArray,
   IsBoolean,
@@ -22,7 +21,6 @@ import {
   IsString,
   ValidateIf,
 } from "class-validator";
-import { QuestionText } from "entities";
 import { Field, InputType } from "type-graphql";
 import { QuestionType } from "./enums/questionType.enum";
 import { QuestionTextValidator } from "./questionText.validator";

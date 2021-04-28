@@ -20,6 +20,7 @@ import { MyContext } from "../utils/interfaces/context.interface";
 import { ClientSafeError } from "../middleware/errors.middleware";
 import { ObjectId } from "bson";
 import isEqual from "lodash.isequal";
+import { QuestionType } from "contracts/validators/enums/questionType.enum";
 
 @Resolver(() => Question)
 export class QuestionResolver {
@@ -30,6 +31,12 @@ export class QuestionResolver {
     @Info() info: GraphQLResolveInfo
   ): Promise<Question[]> {
     return ctx.em.find(Question, { lesson: id }, ["text"]);
+  }
+
+  @Query(() => [String])
+  public async getQuestionTypes(): Promise<string[]> {
+    return Object.keys(QuestionType);
+    // return ctx.em.find(Question, { lesson: id }, ["text"]);
   }
 
   @Query(() => Question, { nullable: true })
