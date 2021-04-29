@@ -22,6 +22,26 @@ import { ObjectId } from "bson";
 import isEqual from "lodash.isequal";
 import { QuestionType } from "contracts/validators/enums/questionType.enum";
 
+// var multer  = require('multer')
+import multer from "multer";
+
+// const upload = multer({
+//   dest: "/temp"
+//   // you might also want to set some limits: https://github.com/expressjs/multer#limits
+// });
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "/assets/images/new");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + "-" + uniqueSuffix);
+  },
+});
+
+var upload = multer({ storage });
+
 @Resolver(() => Question)
 export class QuestionResolver {
   @Query(() => [Question])
@@ -35,8 +55,7 @@ export class QuestionResolver {
 
   @Query(() => [String])
   public async getQuestionTypes(): Promise<string[]> {
-    return Object.keys(QuestionType);
-    // return ctx.em.find(Question, { lesson: id }, ["text"]);
+    return Object.values(QuestionType);
   }
 
   @Query(() => Question, { nullable: true })
@@ -55,6 +74,17 @@ export class QuestionResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Question> {
+    // if (input.image && input.image !== "") {
+    //  upload.single(input.image, async (req, res) => {
+    //   const file = req.file
+    //   console.log('here is file')
+    //       }).then(res => {
+    //         console.log('here is res!', res)
+    //       })
+    //     } else input.image = null;
+    // const file = req.file;
+    // console.log("file!", file);
+
     const question = new Question(input);
 
     try {

@@ -180,7 +180,10 @@ export default class Application {
         }
       );
 
-      apollo.applyMiddleware({ app: this.host });
+      apollo.applyMiddleware({
+        app: this.host,
+        bodyParserConfig: { limit: "50mb" },
+      });
 
       const port = process.env.PORT || 3000;
       const url = process.env.CLIENT_ORIGIN;
