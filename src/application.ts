@@ -187,7 +187,7 @@ export default class Application {
       apollo.applyMiddleware({
         app: this.host,
         cors: {
-          origin: "*",
+          origin: "https://adv-js-ca3.eoan.ie",
           credentials: true,
         },
         bodyParserConfig: { limit: "50mb" },
