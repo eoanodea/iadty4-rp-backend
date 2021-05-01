@@ -22,25 +22,8 @@ import { ObjectId } from "bson";
 import isEqual from "lodash.isequal";
 import { QuestionType } from "contracts/validators/enums/questionType.enum";
 
-// var multer  = require('multer')
-import multer from "multer";
-
-// const upload = multer({
-//   dest: "/temp"
-//   // you might also want to set some limits: https://github.com/expressjs/multer#limits
-// });
-
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "/assets/images/new");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
-  },
-});
-
-var upload = multer({ storage });
+import { promises as fs } from "fs";
+import { wrap } from "@mikro-orm/core";
 
 @Resolver(() => Question)
 export class QuestionResolver {
@@ -74,20 +57,24 @@ export class QuestionResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Question> {
-    // if (input.image && input.image !== "") {
-    //  upload.single(input.image, async (req, res) => {
-    //   const file = req.file
-    //   console.log('here is file')
-    //       }).then(res => {
-    //         console.log('here is res!', res)
-    //       })
-    //     } else input.image = null;
-    // const file = req.file;
-    // console.log("file!", file);
-
     const question = new Question(input);
 
     try {
+      if (input.image && input.image !== "") {
+        const type = input.image.includes("jpeg") ? "jpeg" : "png";
+        const base64Image = input.image.replace(
+          /^(data:image)\/(\bpng|\bjpeg);base64,/,
+          ""
+        );
+        const imageName = `${Math.floor(Date.now() / 1000)}.${type}`;
+
+        await fs.writeFile(
+          `${process.cwd()}/assets/images/${imageName}`,
+          base64Image,
+          "base64"
+        );
+        question.image = imageName;
+      }
       question.lesson = await ctx.em
         .getRepository(Lesson)
         .findOneOrFail({ id });
@@ -96,13 +83,17 @@ export class QuestionResolver {
 
       if (input.text.length > 0) {
         for (const text of input.text) {
-          const newQuestionText = new QuestionText(text);
+          const newQuestionText = new QuestionText({
+            text: text.text,
+            order: text.order,
+          });
 
           if (text.note) {
             const note = await ctx.em
               .getRepository(Note)
               .findOneOrFail(text.note);
             newQuestionText.note = note;
+            console.log("attaching note!", newQuestionText);
           }
           newQuestionText.question = question;
           ctx.em.persist(newQuestionText);
@@ -130,7 +121,28 @@ export class QuestionResolver {
     @Info() info: GraphQLResolveInfo
   ): Promise<Question> {
     const question = await ctx.em.getRepository(Question).findOneOrFail({ id });
-    question.assign(input);
+
+    if (input.image) {
+      if (question.image) {
+        await fs.unlink(`${process.cwd()}/assets/images/${question.image}`);
+      }
+      const type = input.image.includes("jpeg") ? "jpeg" : "png";
+      const base64Image = input.image.replace(
+        /^(data:image)\/(\bpng|\bjpeg);base64,/,
+        ""
+      );
+      const imageName = `${Math.floor(Date.now() / 1000)}.${type}`;
+
+      await fs.writeFile(
+        `${process.cwd()}/assets/images/${imageName}`,
+        base64Image,
+        "base64"
+      );
+      input.image = imageName;
+    }
+
+    wrap(question).assign(input, { em: ctx.em });
+
     await ctx.em.persist(question).flush();
     return question;
   }
@@ -141,6 +153,17 @@ export class QuestionResolver {
     @Ctx() ctx: MyContext
   ): Promise<boolean> {
     const question = await ctx.em.getRepository(Question).findOneOrFail({ id });
+    if (question.image) {
+      await fs.unlink(`${process.cwd()}/assets/images/${question.image}`);
+    }
+    if (question.text.length > 0) {
+      for (const text of question.text) {
+        const questionText = await ctx.em
+          .getRepository(QuestionText)
+          .findOneOrFail({ id: text.id });
+        await ctx.em.getRepository(QuestionText).remove(questionText).flush();
+      }
+    }
     await ctx.em.getRepository(Question).remove(question).flush();
     return true;
   }
@@ -153,9 +176,6 @@ export class QuestionResolver {
     @Arg("answerArr", (type) => [String], { nullable: true })
     answerArr?: string[]
   ): Promise<number> {
-    console.log("running answer question!");
-    console.log("answer: ", answer);
-    console.log("answerarr: ", answerArr);
     const user = await ctx.em
       .getRepository(User)
       .findOne({ _id: new ObjectId(ctx.auth._id) }, ["incorrectQuestions"]);

@@ -46,7 +46,9 @@ export class LessonResolver {
     @Ctx() ctx: MyContext,
     @Info() info: GraphQLResolveInfo
   ): Promise<Lesson | null> {
-    return ctx.em.getRepository(Lesson).findOne({ id }, ["questions"]);
+    return ctx.em
+      .getRepository(Lesson)
+      .findOne({ id }, ["questions", "questions.text"]);
   }
 
   @Mutation(() => Lesson)

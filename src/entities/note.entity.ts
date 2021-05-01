@@ -12,7 +12,7 @@
  * Copyright 2021 WebSpace, WebSpace
  */
 
-import { Entity, OneToMany, OneToOne, Property } from "@mikro-orm/core";
+import { Entity, OneToMany, Property } from "@mikro-orm/core";
 import { Field, ObjectType } from "type-graphql";
 
 import { Base } from "./";
@@ -35,7 +35,9 @@ export class Note extends Base<Note> {
   public sanitizedHtml: string;
 
   @Field(() => QuestionText, { nullable: true })
-  @OneToOne(() => QuestionText, (b: QuestionText) => b.note, { nullable: true })
+  @OneToMany(() => QuestionText, (b: QuestionText) => b.note, {
+    nullable: true,
+  })
   public questionText: QuestionText;
 
   constructor(body: NoteValidator) {

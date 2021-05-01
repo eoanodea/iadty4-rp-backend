@@ -30,7 +30,7 @@ export class QuestionText extends Base<QuestionText> {
   public text: string;
 
   @Field(() => Note, { nullable: true })
-  @OneToOne({ entity: () => Note, nullable: true })
+  @ManyToOne({ entity: () => Note, nullable: true })
   public note?: Note;
 
   @Field(() => Question)
