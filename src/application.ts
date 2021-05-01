@@ -186,6 +186,7 @@ export default class Application {
 
       apollo.applyMiddleware({
         app: this.host,
+        cors: false,
         bodyParserConfig: { limit: "50mb" },
       });
 
