@@ -61,6 +61,7 @@ import { verifyToken } from "./middleware/";
  */
 import { QuestionType } from "./contracts/validators/enums/questionType.enum";
 import { ModuleType } from "./contracts/validators/enums/moduleType.enum";
+import config from "./../config/index";
 
 const CURRENT_WORKING_DIR = process.cwd();
 
@@ -186,16 +187,15 @@ export default class Application {
 
       apollo.applyMiddleware({
         app: this.host,
-        cors: false,
-        // {
-        //   origin: "https://adv-js-ca3.eoan.ie",
-        //   credentials: true,
-        // },
+        cors: {
+          origin: config.CLIENT_ORIGIN,
+          credentials: true,
+        },
         bodyParserConfig: { limit: "50mb" },
       });
 
       const port = process.env.PORT || 3000;
-      const url = process.env.CLIENT_ORIGIN;
+      const url = process.env.SERVER_URL;
 
       this.server = this.host.listen(port, () => {
         console.log(
