@@ -20,7 +20,7 @@ import { MyContext } from "../utils/interfaces/context.interface";
 import { ClientSafeError } from "../middleware/errors.middleware";
 import { ObjectId } from "bson";
 import isEqual from "lodash.isequal";
-import { QuestionType } from "contracts/validators/enums/questionType.enum";
+import { QuestionType } from ".././contracts/validators/enums/questionType.enum";
 
 import { promises as fs } from "fs";
 import { wrap } from "@mikro-orm/core";
