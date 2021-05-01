@@ -130,12 +130,12 @@ export default class Application {
     // const corsOptions = {
     //   origin: "*",
     // };
-    const corsOptions = {
-      origin: "*",
-      credentials: true, // <-- REQUIRED backend setting
-    };
+    // const corsOptions = {
+    //   origin: "*",
+    //   credentials: true, // <-- REQUIRED backend setting
+    // };
 
-    this.host.use(cors(corsOptions));
+    // this.host.use(cors(corsOptions));
 
     try {
       const schema: GraphQLSchema = await buildSchema({
@@ -186,7 +186,9 @@ export default class Application {
 
       apollo.applyMiddleware({
         app: this.host,
-        cors: false,
+        cors: {
+          credentials: true,
+        },
         bodyParserConfig: { limit: "50mb" },
       });
 
