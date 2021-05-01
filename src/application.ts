@@ -131,7 +131,7 @@ export default class Application {
     //   origin: "*",
     // };
     const corsOptions = {
-      origin: "http://adv-js-ca3.eoan.ie/",
+      origin: "*",
       credentials: true, // <-- REQUIRED backend setting
     };
 
