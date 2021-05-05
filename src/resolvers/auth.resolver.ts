@@ -35,6 +35,7 @@ export class AuthResolver {
           "completedModules",
           "completedLessons",
           "incorrectQuestions",
+          "streak",
         ]);
 
       return user;
