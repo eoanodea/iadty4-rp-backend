@@ -197,18 +197,20 @@ export default class Application {
       const port = process.env.PORT || 3000;
       const url = process.env.SERVER_URL;
 
-      this.server = this.host.listen(port, () => {
-        console.log(
-          `[Easy Piano V${process.env.npm_package_version}] - Starting server in ${process.env.NODE_ENV}`
-        );
-        console.log(`🚀
+      if (process.env.NODE_ENV !== "test") {
+        this.server = this.host.listen(port, () => {
+          console.log(
+            `[Easy Piano V${process.env.npm_package_version}] - Starting server in ${process.env.NODE_ENV}`
+          );
+          console.log(`🚀
           Server running at  \x1b[36m${url}:${port}\x1b[0m
         `);
-        if (process.env.NODE_ENV !== "production")
-          console.log(
-            `GraphQL playground running at \x1b[35m${url}:${port}/graphql\x1b[0m`
-          );
-      });
+          if (process.env.NODE_ENV !== "production")
+            console.log(
+              `GraphQL playground running at \x1b[35m${url}:${port}/graphql\x1b[0m`
+            );
+        });
+      }
     } catch (error) {
       console.error("📌 Could not start server", error);
     }
