@@ -41,6 +41,9 @@ export class User extends Base<User> {
   @Property()
   password: string;
 
+  @Property()
+  admin: boolean = false;
+
   @Field()
   @Property()
   public points: number = 0;

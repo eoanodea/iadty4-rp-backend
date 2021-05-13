@@ -54,3 +54,27 @@ export const generateToken = (id: string) => {
     expiration,
   };
 };
+
+/**
+ * Generates a JWT token using the
+ * users ID and the JWT SECRET
+ *
+ * @param {String} id
+ */
+export const generateAdminToken = (id: string) => {
+  const date = new Date();
+  const expiration = date.setDate(date.getDate() + 1);
+
+  return {
+    token: jwt.sign(
+      {
+        _id: id,
+      },
+      config.jwtAdminSecret,
+      {
+        expiresIn: "1d",
+      }
+    ),
+    expiration,
+  };
+};
