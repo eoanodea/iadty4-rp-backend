@@ -14,6 +14,7 @@
 
 import { Options } from "@mikro-orm/core";
 import { MongoHighlighter } from "@mikro-orm/mongo-highlighter";
+import { Image } from "entities/image.entity";
 
 import config from "../config";
 
@@ -30,7 +31,17 @@ import {
 
 const options: Options = {
   type: "mongo",
-  entities: [User, Module, Lesson, Question, QuestionText, Note, Base, Streak],
+  entities: [
+    User,
+    Module,
+    Lesson,
+    Question,
+    QuestionText,
+    Note,
+    Base,
+    Streak,
+    Image,
+  ],
   dbName: "music-app",
   clientUrl: config.mongoUri,
   highlighter: new MongoHighlighter(),

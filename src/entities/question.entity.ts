@@ -20,12 +20,14 @@ import {
   OneToMany,
   Collection,
   Property,
+  OneToOne,
 } from "@mikro-orm/core";
 import { QuestionType } from "../contracts/validators/enums/questionType.enum";
 import { Field, ObjectType } from "type-graphql";
 
 import { QuestionValidator } from "../contracts/validators";
 import { Lesson, Base, User, QuestionText } from "./";
+import { Image } from "./image.entity";
 
 @ObjectType({ description: "Represents a question within the database" })
 @Entity()
@@ -42,10 +44,6 @@ export class Question extends Base<Question> {
   @Property()
   public options: string[];
 
-  @Field({ nullable: true })
-  @Property()
-  public image?: string;
-
   @Field({ defaultValue: 15 })
   @Property()
   public points: number;
@@ -61,6 +59,10 @@ export class Question extends Base<Question> {
   @Field({ nullable: true })
   @Property()
   public answerHint?: string;
+
+  @Field(() => Image, { nullable: true })
+  @OneToOne(() => Image)
+  public image?: Image;
 
   @Field(() => [QuestionText])
   @OneToMany(() => QuestionText, (b: QuestionText) => b.question, {

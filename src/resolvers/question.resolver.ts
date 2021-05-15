@@ -24,6 +24,7 @@ import { QuestionType } from ".././contracts/validators/enums/questionType.enum"
 
 import { promises as fs } from "fs";
 import { wrap } from "@mikro-orm/core";
+import { Image } from "entities/image.entity";
 
 @Resolver(() => Question)
 export class QuestionResolver {
@@ -66,14 +67,17 @@ export class QuestionResolver {
           /^(data:image)\/(\bpng|\bjpeg);base64,/,
           ""
         );
-        const imageName = `${Math.floor(Date.now() / 1000)}.${type}`;
+        const data = await fs.readFile(base64Image, { encoding: "base64" });
+        const name = `${Math.floor(Date.now() / 1000)}.${type}`;
+        const image = new Image({ name, data, type });
+        question.image = image;
 
-        await fs.writeFile(
-          `${process.cwd()}/assets/images/${imageName}`,
-          base64Image,
-          "base64"
-        );
-        question.image = imageName;
+        // await fs.writeFile(
+        //   `${process.cwd()}/assets/images/${imageName}`,
+        //   base64Image,
+        //   "base64"
+        // );
+        // question.image = imageName;
       }
       question.lesson = await ctx.em
         .getRepository(Lesson)
